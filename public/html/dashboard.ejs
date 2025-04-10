@@ -57,15 +57,11 @@
       position: relative;
       overflow: hidden;
       width: 90%;
-      max-width: 320px;
+      max-width: 500px;
       margin: 0 auto;
-    }
-    
-    @media (orientation: landscape) {
-      .glass-box {
-        max-width: 500px;
-        padding: 1rem;
-      }
+      display: flex;
+      flex-direction: row;
+      padding: 1rem;
     }
     
     .glass-box::before {
@@ -176,20 +172,36 @@
       40%, 80% { transform: translateX(5px); }
     }
     
-    /* iPhone 11 specific adjustments */
+    /* Layout sections */
+    .logo-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding-right: 1rem;
+    }
+    
+    .form-section {
+      flex: 1;
+    }
+    
+    .logo-img {
+      width: 120px;
+      height: auto;
+    }
+    
+    /* iPhone 11 landscape specific adjustments */
     @media only screen 
-      and (device-width: 414px) 
-      and (device-height: 896px) 
-      and (-webkit-device-pixel-ratio: 2) 
+      and (max-device-width: 896px) 
       and (orientation: landscape) {
         .glass-box {
           max-width: 90%;
-          transform: scale(0.95);
           padding: 0.8rem;
         }
         
         .logo-img {
-          width: 100px;
+          width: 90px;
         }
         
         .input-field {
@@ -204,6 +216,10 @@
           padding: 0.3rem 0.4rem;
           font-size: 0.8rem;
         }
+        
+        .neon-title {
+          font-size: 0.9rem;
+        }
     }
   </style>
 </head>
@@ -213,87 +229,84 @@
   <div class="particles" id="particles-container"></div>
 
   <!-- Login Panel -->
-  <div class="glass-box rounded-lg p-4 space-y-3 z-10">
+  <div class="glass-box rounded-lg z-10">
     <!-- Logo + Title -->
-    <div class="flex flex-col items-center space-y-2 mb-3">
+    <div class="logo-section">
       <img src="https://media.discordapp.net/attachments/1356768818289971397/1356769300924596426/logo.png?ex=67f8fa20&amp;is=67f7a8a0&amp;hm=d517aee77d475a1ae0af4c66a4cd31bb34ea83947c71160dcf139b3c862deb98&amp;format=webp&amp;quality=lossless" 
            alt="GTPS6 Logo" 
            class="logo-img object-contain drop-shadow-md hover:scale-105 transition-transform duration-300" />
-      <h1 class="title-font neon-title text-center">PLAYER LOGIN</h1>
+      <h1 class="title-font neon-title text-center mt-2">PLAYER LOGIN</h1>
     </div>
 
-    <!-- Error Message -->
-    <div id="errorDiv" class="hidden bg-red-900/70 text-red-100 text-xs px-3 py-2 rounded border border-red-700/50 mb-2">
-      <div class="flex items-center">
-        <i class="fas fa-exclamation-circle mr-1 text-xs"></i>
-        <p id="errorMessage" class="font-medium"></p>
-      </div>
-    </div>
-
-    <!-- Login Form -->
-    <form method="post" action="/player/growid/login/validate" accept-charset="UTF-8" id="loginForm" class="space-y-3">
-      <input type="hidden" name="type" value="log" />
-      <input type="hidden" name="_token" value="<%= JSON.stringify(data) %>" />
-
-      <!-- GrowID -->
-      <div class="space-y-1">
-        <label for="loginGrowId" class="block text-cyan-100">GrowID</label>
-        <div class="flex items-center input-field bg-white/5 border border-white/10 rounded focus-within:bg-white/10 transition-all duration-200">
-          <i class="fas fa-user text-xs mr-1 text-cyan-300"></i>
-          <input type="text" name="growId" id="loginGrowId" placeholder="Enter your GrowID"
-                 class="bg-transparent w-full outline-none placeholder-cyan-200/50 focus:placeholder-transparent"/>
-        </div>
-      </div>
-
-      <!-- Password -->
-      <div class="space-y-1">
-        <label for="loginPassword" class="block text-cyan-100">Password</label>
-        <div class="flex items-center input-field bg-white/5 border border-white/10 rounded focus-within:bg-white/10 transition-all duration-200">
-          <i class="fas fa-lock text-xs mr-1 text-cyan-300"></i>
-          <input type="password" name="password" id="loginPassword" placeholder="Enter your password"
-                 class="bg-transparent w-full outline-none placeholder-cyan-200/50 focus:placeholder-transparent"/>
-          <button type="button" id="toggleLogPassword" class="ml-1 text-xs text-cyan-300 hover:text-white transition">
-            <i class="fas fa-eye"></i>
-          </button>
-        </div>
-      </div>
-
-      <!-- Remember Me -->
-      <div class="flex items-center justify-between mt-2">
+    <!-- Form Section -->
+    <div class="form-section">
+      <!-- Error Message -->
+      <div id="errorDiv" class="hidden bg-red-900/70 text-red-100 text-xs px-3 py-2 rounded border border-red-700/50 mb-2">
         <div class="flex items-center">
-          <input type="checkbox" id="rememberMe" class="h-3 w-3 rounded border-gray-300 text-cyan-500 focus:ring-cyan-500 bg-white/10">
-          <label for="rememberMe" class="ml-1 block text-xs text-cyan-100">Remember me</label>
+          <i class="fas fa-exclamation-circle mr-1 text-xs"></i>
+          <p id="errorMessage" class="font-medium"></p>
         </div>
-        <a href="/forgot-password" class="text-xs text-cyan-300 hover:text-white underline underline-offset-1">Forgot password?</a>
       </div>
 
-      <!-- Buttons with Full Effects -->
-      <div class="flex flex-col space-y-2 mt-3">
-        <button id="loginButton" class="btn-primary flex items-center justify-center gap-1 w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white rounded shadow-lg hover:shadow-cyan-500/30 transition-all duration-300">
-          <i class="fas fa-sign-in-alt text-xs"></i> <span class="title-font">LOGIN</span>
-        </button>
+      <!-- Login Form -->
+      <form method="post" action="/player/growid/login/validate" accept-charset="UTF-8" id="loginForm" class="space-y-3">
+        <input type="hidden" name="type" value="log" />
+        <input type="hidden" name="_token" value="<%= JSON.stringify(data) %>" />
 
-        <div class="flex items-center my-1">
-          <div class="flex-1 border-t border-gray-600/50"></div>
-          <span class="px-2 text-xs text-gray-400">OR</span>
-          <div class="flex-1 border-t border-gray-600/50"></div>
+        <!-- GrowID -->
+        <div class="space-y-1">
+          <label for="loginGrowId" class="block text-cyan-100">GrowID</label>
+          <div class="flex items-center input-field bg-white/5 border border-white/10 rounded focus-within:bg-white/10 transition-all duration-200">
+            <i class="fas fa-user text-xs mr-1 text-cyan-300"></i>
+            <input type="text" name="growId" id="loginGrowId" placeholder="Enter your GrowID"
+                   class="bg-transparent w-full outline-none placeholder-cyan-200/50 focus:placeholder-transparent"/>
+          </div>
         </div>
 
-        <a href="/register" class="btn-primary flex items-center justify-center gap-1 w-full bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white rounded shadow-lg hover:shadow-purple-500/30 transition-all duration-300">
-          <i class="fas fa-user-plus text-xs"></i> <span class="title-font">REGISTER</span>
-        </a>
+        <!-- Password -->
+        <div class="space-y-1">
+          <label for="loginPassword" class="block text-cyan-100">Password</label>
+          <div class="flex items-center input-field bg-white/5 border border-white/10 rounded focus-within:bg-white/10 transition-all duration-200">
+            <i class="fas fa-lock text-xs mr-1 text-cyan-300"></i>
+            <input type="password" name="password" id="loginPassword" placeholder="Enter your password"
+                   class="bg-transparent w-full outline-none placeholder-cyan-200/50 focus:placeholder-transparent"/>
+            <button type="button" id="toggleLogPassword" class="ml-1 text-xs text-cyan-300 hover:text-white transition">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+        </div>
 
-        <a href="https://discord.gg/YOUR_SERVER" target="_blank"
-           class="btn-primary flex items-center justify-center gap-1 w-full bg-[var(--discord-color)] hover:bg-[#4752c4] text-white rounded shadow-lg hover:shadow-indigo-500/30 transition-all duration-300">
-          <i class="fab fa-discord text-sm"></i> <span class="title-font">DISCORD</span>
-        </a>
-      </div>
-    </form>
-    
-    <!-- Footer -->
-    <div class="text-center text-2xs text-gray-400 mt-3">
-      <p>© 2023 GTPS6</p>
+        <!-- Remember Me -->
+        <div class="flex items-center justify-between mt-2">
+          <div class="flex items-center">
+            <input type="checkbox" id="rememberMe" class="h-3 w-3 rounded border-gray-300 text-cyan-500 focus:ring-cyan-500 bg-white/10">
+            <label for="rememberMe" class="ml-1 block text-xs text-cyan-100">Remember me</label>
+          </div>
+          <a href="/forgot-password" class="text-xs text-cyan-300 hover:text-white underline underline-offset-1">Forgot password?</a>
+        </div>
+
+        <!-- Buttons with Full Effects -->
+        <div class="grid grid-cols-2 gap-2 mt-3">
+          <button id="loginButton" class="btn-primary flex items-center justify-center gap-1 w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white rounded shadow-lg hover:shadow-cyan-500/30 transition-all duration-300 col-span-2">
+            <i class="fas fa-sign-in-alt text-xs"></i> <span class="title-font">LOGIN</span>
+          </button>
+
+          <a href="/register" class="btn-primary flex items-center justify-center gap-1 w-full bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white rounded shadow-lg hover:shadow-purple-500/30 transition-all duration-300">
+            <i class="fas fa-user-plus text-xs"></i> <span class="title-font">REGISTER</span>
+          </a>
+
+          <a href="https://discord.gg/YOUR_SERVER" target="_blank"
+             class="btn-primary flex items-center justify-center gap-1 w-full bg-[var(--discord-color)] hover:bg-[#4752c4] text-white rounded shadow-lg hover:shadow-indigo-500/30 transition-all duration-300">
+            <i class="fab fa-discord text-sm"></i> <span class="title-font">DISCORD</span>
+          </a>
+        </div>
+      </form>
     </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="text-center text-2xs text-gray-400 mt-3 absolute bottom-2 left-0 right-0">
+    <p>© 2023 GTPS6</p>
   </div>
 
   <script>
