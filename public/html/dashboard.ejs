@@ -17,6 +17,7 @@
     
     body {
       font-family: 'Poppins', sans-serif;
+      overflow: hidden;
       background: rgba(5, 10, 20, 0.7);
       min-height: 100vh;
     }
@@ -54,6 +55,7 @@
       overflow: hidden;
       width: 90%;
       max-width: 320px;
+      transform: scale(0.9);
     }
     
     .glass-box::before {
@@ -80,7 +82,7 @@
       0% { transform: translateX(-100%) rotate(30deg); }
       100% { transform: translateX(100%) rotate(30deg); }
     }
-    
+
     /* Input field focus effect */
     .input-field:focus-within {
       border-color: var(--primary-color);
@@ -120,24 +122,47 @@
       40%, 80% { transform: translateX(5px); }
     }
     
-    /* Mobile responsive adjustments */
-    @media (max-width: 640px) {
+    /* Compact form elements */
+    .input-field {
+      padding: 0.4rem 0.75rem;
+    }
+    
+    input {
+      font-size: 0.8rem !important;
+    }
+    
+    label {
+      font-size: 0.75rem !important;
+    }
+    
+    .btn-primary {
+      padding: 0.4rem 0.5rem;
+      font-size: 0.8rem;
+    }
+    
+    .logo-img {
+      width: 120px !important;
+      height: auto;
+    }
+
+    /* Mobile Support */
+    @media (max-width: 480px) {
       .glass-box {
         width: 95%;
-        padding: 1.5rem;
+        transform: scale(1);
       }
       
+      .title-font {
+        font-size: 1.0rem;
+      }
+
       .neon-title {
         font-size: 1rem;
       }
-      
-      .logo-img {
-        width: 100px !important;
-      }
-      
+
       .btn-primary {
+        font-size: 0.9rem;
         padding: 0.5rem;
-        font-size: 0.85rem;
       }
     }
   </style>
@@ -229,28 +254,6 @@
   </div>
 
   <script>
-    // Save user info
-    document.addEventListener('DOMContentLoaded', function () {
-      const rememberMe = localStorage.getItem('rememberMe') === 'true';
-      document.getElementById('rememberMe').checked = rememberMe;
-      
-      if (rememberMe) {
-        document.getElementById('loginGrowId').value = localStorage.getItem('growId') || '';
-        document.getElementById('loginPassword').value = localStorage.getItem('password') || '';
-      }
-      
-      // Add focus effects to inputs
-      const inputs = document.querySelectorAll('input[type="text"], input[type="password"]');
-      inputs.forEach(input => {
-        input.addEventListener('focus', function() {
-          this.parentElement.classList.add('ring-2', 'ring-cyan-500/30');
-        });
-        input.addEventListener('blur', function() {
-          this.parentElement.classList.remove('ring-2', 'ring-cyan-500/30');
-        });
-      });
-    });
-
     // Toggle password visibility
     document.getElementById('toggleLogPassword').addEventListener('click', function () {
       const passwordField = document.getElementById('loginPassword');
@@ -258,64 +261,6 @@
       passwordField.setAttribute('type', type === 'password' ? 'text' : 'password');
       this.innerHTML = `<i class="fas fa-${type === 'password' ? 'eye-slash' : 'eye'}"></i>`;
       passwordField.focus();
-    });
-
-    // Form validation
-    document.getElementById('loginButton').addEventListener('click', function (event) {
-      event.preventDefault();
-      const uName = document.getElementById('loginGrowId').value.trim();
-      const uPass = document.getElementById('loginPassword').value.trim();
-      const rememberMe = document.getElementById('rememberMe').checked;
-
-      if (!uName || !uPass) {
-        showError('Username and password required');
-        return;
-      }
-      
-      if (uName.length < 3 || uPass.length < 4) {
-        showError('Min 3 chars for ID, 4 for password');
-        return;
-      }
-
-      if (rememberMe) {
-        localStorage.setItem('growId', uName);
-        localStorage.setItem('password', uPass);
-        localStorage.setItem('rememberMe', 'true');
-      } else {
-        localStorage.removeItem('growId');
-        localStorage.removeItem('password');
-        localStorage.setItem('rememberMe', 'false');
-      }
-      
-      // Add loading state
-      this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
-      this.disabled = true;
-      
-      setTimeout(() => {
-        document.getElementById('loginForm').submit();
-      }, 800);
-    });
-
-    function showError(message) {
-      const errorDiv = document.getElementById('errorDiv');
-      document.getElementById('errorMessage').textContent = message;
-      errorDiv.classList.remove('hidden');
-      errorDiv.classList.add('error-message');
-      
-      setTimeout(() => {
-        errorDiv.classList.remove('error-message');
-      }, 500);
-      
-      setTimeout(() => {
-        errorDiv.classList.add('hidden');
-      }, 3000);
-    }
-    
-    // Add enter key submission
-    document.getElementById('loginPassword').addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') {
-        document.getElementById('loginButton').click();
-      }
     });
   </script>
 </body>
