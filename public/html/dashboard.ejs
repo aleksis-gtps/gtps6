@@ -7,6 +7,38 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <script>
+    // Force landscape orientation
+    function lockOrientation() {
+      if (screen.orientation && screen.orientation.lock) {
+        screen.orientation.lock('landscape').catch(e => {
+          console.log("Orientation lock failed: ", e);
+        });
+      } else if (window.screen.lockOrientation) {
+        window.screen.lockOrientation('landscape');
+      } else if (window.screen.mozLockOrientation) {
+        window.screen.mozLockOrientation('landscape');
+      } else if (window.screen.msLockOrientation) {
+        window.screen.msLockOrientation('landscape');
+      }
+    }
+    
+    // Check orientation on load and resize
+    function checkOrientation() {
+      if (window.innerHeight > window.innerWidth) {
+        document.getElementById('rotate-message').classList.remove('hidden');
+      } else {
+        document.getElementById('rotate-message').classList.add('hidden');
+      }
+    }
+    
+    window.addEventListener('load', function() {
+      lockOrientation();
+      checkOrientation();
+    });
+    
+    window.addEventListener('resize', checkOrientation);
+  </script>
 
   <style>
     :root {
@@ -30,7 +62,7 @@
     }
 
     .neon-title {
-      font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+      font-size: clamp(0.9rem, 1.5vh, 1.2rem);
       background: linear-gradient(90deg, var(--primary-color), #ffffff, var(--primary-color));
       background-size: 300%;
       -webkit-background-clip: text;
@@ -57,11 +89,11 @@
       position: relative;
       overflow: hidden;
       width: 90%;
-      max-width: min(90vw, 600px);
+      max-width: min(90vh, 800px);
       margin: 0 auto;
       display: flex;
       flex-direction: row;
-      padding: clamp(0.8rem, 2vw, 1.2rem);
+      padding: clamp(0.8rem, 1.5vh, 1.2rem);
     }
     
     .glass-box::before {
@@ -101,8 +133,8 @@
 
     .particle {
       position: absolute;
-      width: clamp(3px, 0.5vw, 6px);
-      height: clamp(3px, 0.5vw, 6px);
+      width: clamp(3px, 0.5vh, 6px);
+      height: clamp(3px, 0.5vh, 6px);
       background: var(--primary-color);
       border-radius: 50%;
       opacity: 0.6;
@@ -112,14 +144,14 @@
     
     .particle:nth-child(3n) {
       background: #ffffff;
-      width: clamp(2px, 0.3vw, 3px);
-      height: clamp(2px, 0.3vw, 3px);
+      width: clamp(2px, 0.3vh, 3px);
+      height: clamp(2px, 0.3vh, 3px);
     }
     
     .particle:nth-child(5n) {
       background: #00b8ff;
-      width: clamp(2px, 0.4vw, 4px);
-      height: clamp(2px, 0.4vw, 4px);
+      width: clamp(2px, 0.4vh, 4px);
+      height: clamp(2px, 0.4vh, 4px);
     }
 
     @keyframes floatParticle {
@@ -140,7 +172,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding-right: clamp(0.5rem, 2vw, 1rem);
+      padding-right: clamp(0.5rem, 1.5vh, 1rem);
       min-width: 0;
     }
     
@@ -150,48 +182,69 @@
     }
     
     .logo-img {
-      width: clamp(80px, 20vw, 150px);
+      width: clamp(80px, 15vh, 150px);
       height: auto;
       max-width: 100%;
     }
     
     /* Responsive form elements */
     .input-field {
-      padding: clamp(0.3rem, 1vw, 0.5rem) clamp(0.5rem, 1.5vw, 0.75rem);
+      padding: clamp(0.3rem, 1vh, 0.5rem) clamp(0.5rem, 1.5vh, 0.75rem);
     }
     
     input {
-      font-size: clamp(0.75rem, 2vw, 0.9rem) !important;
+      font-size: clamp(0.75rem, 1.8vh, 0.9rem) !important;
     }
     
     label {
-      font-size: clamp(0.7rem, 1.8vw, 0.85rem) !important;
+      font-size: clamp(0.7rem, 1.6vh, 0.85rem) !important;
     }
     
     .btn-primary {
-      padding: clamp(0.3rem, 1vw, 0.5rem) clamp(0.4rem, 1.2vw, 0.6rem);
-      font-size: clamp(0.75rem, 2vw, 0.9rem);
+      padding: clamp(0.3rem, 1vh, 0.5rem) clamp(0.4rem, 1.2vh, 0.6rem);
+      font-size: clamp(0.75rem, 1.8vh, 0.9rem);
     }
     
-    /* Responsive layout adjustments */
-    @media (max-width: 768px) {
-      .glass-box {
-        flex-direction: column;
-        max-width: min(90vw, 400px);
-      }
-      
-      .logo-section {
-        padding-right: 0;
-        padding-bottom: clamp(0.5rem, 2vw, 1rem);
-      }
-      
-      .logo-img {
-        width: clamp(90px, 25vw, 120px);
-      }
+    /* Rotate message */
+    #rotate-message {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.9);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      color: white;
+      text-align: center;
+      padding: 2rem;
+    }
+    
+    #rotate-message i {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: var(--primary-color);
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
     }
   </style>
 </head>
 <body class="text-white px-4 relative">
+
+  <!-- Rotate device message -->
+  <div id="rotate-message" class="hidden">
+    <i class="fas fa-rotate"></i>
+    <h2 class="text-xl font-bold mb-2">Please rotate your device</h2>
+    <p>This application requires landscape orientation</p>
+  </div>
 
   <!-- Particle Layer - Full Effects -->
   <div class="particles" id="particles-container"></div>
@@ -310,6 +363,9 @@
           this.parentElement.classList.remove('ring-2', 'ring-cyan-500/30');
         });
       });
+      
+      // Try to lock orientation again after a delay
+      setTimeout(lockOrientation, 1000);
     });
 
     // Toggle password visibility
@@ -377,12 +433,6 @@
       if (e.key === 'Enter') {
         document.getElementById('loginButton').click();
       }
-    });
-
-    // Handle orientation changes
-    window.addEventListener('resize', function() {
-      // This forces a re-render on orientation change
-      document.body.style.zoom = window.innerWidth / window.outerWidth;
     });
   </script>
 </body>
