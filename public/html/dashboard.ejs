@@ -27,7 +27,7 @@
     }
 
     .neon-title {
-      font-size: 1.2rem;
+      font-size: clamp(1rem, 3vw, 1.2rem);
       background: linear-gradient(90deg, var(--primary-color), #ffffff, var(--primary-color));
       background-size: 300%;
       -webkit-background-clip: text;
@@ -54,8 +54,14 @@
       position: relative;
       overflow: hidden;
       width: 90%;
-      max-width: 600px;
+      max-width: 320px;
       transform: scale(0.9);
+    }
+    
+    @media (min-width: 768px) and (orientation: landscape) {
+      .glass-box {
+        max-width: 600px;
+      }
     }
     
     .glass-box::before {
@@ -166,16 +172,22 @@
       40%, 80% { transform: translateX(5px); }
     }
     
-    /* Landscape layout adjustments */
+    /* Responsive layout */
     .login-container {
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       align-items: center;
-      gap: 2rem;
+      gap: 1rem;
+    }
+    
+    @media (min-width: 768px) and (orientation: landscape) {
+      .login-container {
+        flex-direction: row;
+        gap: 2rem;
+      }
     }
     
     .logo-section {
-      flex: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -183,21 +195,52 @@
     }
     
     .form-section {
-      flex: 1;
+      width: 100%;
     }
     
     .logo-img {
-      width: 180px !important;
+      width: clamp(100px, 20vw, 180px);
       height: auto;
     }
     
-    @media (max-width: 768px) {
-      .login-container {
-        flex-direction: column;
+    /* Responsive form elements */
+    .input-field {
+      padding: 0.4rem 0.75rem;
+    }
+    
+    input {
+      font-size: clamp(0.8rem, 2vw, 0.9rem) !important;
+    }
+    
+    label {
+      font-size: clamp(0.75rem, 2vw, 0.85rem) !important;
+    }
+    
+    .btn-primary {
+      padding: 0.4rem 0.5rem;
+      font-size: clamp(0.8rem, 2vw, 0.9rem);
+    }
+    
+    /* Responsive buttons layout */
+    .buttons-container {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    
+    @media (min-width: 768px) and (orientation: landscape) {
+      .buttons-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
       }
       
-      .logo-img {
-        width: 120px !important;
+      .buttons-container > :first-child {
+        grid-column: span 2;
+      }
+      
+      .buttons-container > :nth-child(2) {
+        grid-column: span 2;
       }
     }
   </style>
@@ -208,20 +251,20 @@
   <div class="particles" id="particles-container"></div>
 
   <!-- Login Panel -->
-  <div class="glass-box rounded-lg p-6 z-10">
+  <div class="glass-box rounded-lg p-4 md:p-6 z-10">
     <div class="login-container">
       <!-- Logo + Title Section -->
       <div class="logo-section">
         <img src="https://media.discordapp.net/attachments/1356768818289971397/1356769300924596426/logo.png?ex=67f8fa20&amp;is=67f7a8a0&amp;hm=d517aee77d475a1ae0af4c66a4cd31bb34ea83947c71160dcf139b3c862deb98&amp;format=webp&amp;quality=lossless" 
              alt="GTPS6 Logo" 
              class="logo-img object-contain drop-shadow-md hover:scale-105 transition-transform duration-300" />
-        <h1 class="title-font neon-title text-center mt-4">PLAYER LOGIN</h1>
+        <h1 class="title-font neon-title text-center mt-2 md:mt-4">PLAYER LOGIN</h1>
       </div>
 
       <!-- Form Section -->
       <div class="form-section">
         <!-- Error Message -->
-        <div id="errorDiv" class="hidden bg-red-900/70 text-red-100 text-xs px-3 py-2 rounded border border-red-700/50 mb-3">
+        <div id="errorDiv" class="hidden bg-red-900/70 text-red-100 text-xs px-3 py-2 rounded border border-red-700/50 mb-2 md:mb-3">
           <div class="flex items-center">
             <i class="fas fa-exclamation-circle mr-1 text-xs"></i>
             <p id="errorMessage" class="font-medium"></p>
@@ -229,7 +272,7 @@
         </div>
 
         <!-- Login Form -->
-        <form method="post" action="/player/growid/login/validate" accept-charset="UTF-8" id="loginForm" class="space-y-3">
+        <form method="post" action="/player/growid/login/validate" accept-charset="UTF-8" id="loginForm" class="space-y-2 md:space-y-3">
           <input type="hidden" name="type" value="log" />
           <input type="hidden" name="_token" value="<%= JSON.stringify(data) %>" />
 
@@ -257,7 +300,7 @@
           </div>
 
           <!-- Remember Me -->
-          <div class="flex items-center justify-between mt-2">
+          <div class="flex items-center justify-between mt-1 md:mt-2">
             <div class="flex items-center">
               <input type="checkbox" id="rememberMe" class="h-3 w-3 rounded border-gray-300 text-cyan-500 focus:ring-cyan-500 bg-white/10">
               <label for="rememberMe" class="ml-1 block text-xs text-cyan-100">Remember me</label>
@@ -266,8 +309,8 @@
           </div>
 
           <!-- Buttons with Full Effects -->
-          <div class="flex flex-col space-y-2 mt-4">
-            <button id="loginButton" class="btn-primary flex items-center justify-center gap-1 w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white rounded shadow-lg hover:shadow-cyan-500/30 transition-all duration-300 py-2">
+          <div class="buttons-container mt-3">
+            <button id="loginButton" class="btn-primary flex items-center justify-center gap-1 w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white rounded shadow-lg hover:shadow-cyan-500/30 transition-all duration-300 py-1 md:py-2">
               <i class="fas fa-sign-in-alt text-xs"></i> <span class="title-font">LOGIN</span>
             </button>
 
@@ -277,24 +320,22 @@
               <div class="flex-1 border-t border-gray-600/50"></div>
             </div>
 
-            <div class="grid grid-cols-2 gap-2">
-              <a href="/register" class="btn-primary flex items-center justify-center gap-1 w-full bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white rounded shadow-lg hover:shadow-purple-500/30 transition-all duration-300 py-2">
-                <i class="fas fa-user-plus text-xs"></i> <span class="title-font">REGISTER</span>
-              </a>
+            <a href="/register" class="btn-primary flex items-center justify-center gap-1 w-full bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white rounded shadow-lg hover:shadow-purple-500/30 transition-all duration-300 py-1 md:py-2">
+              <i class="fas fa-user-plus text-xs"></i> <span class="title-font">REGISTER</span>
+            </a>
 
-              <a href="https://discord.com/invite/BkFVbnK8dS" target="_blank"
-                 class="btn-primary flex items-center justify-center gap-1 w-full bg-[var(--discord-color)] hover:bg-[#4752c4] text-white rounded shadow-lg hover:shadow-indigo-500/30 transition-all duration-300 py-2">
-                <i class="fab fa-discord text-sm"></i> <span class="title-font">DISCORD</span>
-              </a>
-            </div>
+            <a href="https://discord.gg/YOUR_SERVER" target="_blank"
+               class="btn-primary flex items-center justify-center gap-1 w-full bg-[var(--discord-color)] hover:bg-[#4752c4] text-white rounded shadow-lg hover:shadow-indigo-500/30 transition-all duration-300 py-1 md:py-2">
+              <i class="fab fa-discord text-sm"></i> <span class="title-font">DISCORD</span>
+            </a>
           </div>
         </form>
       </div>
     </div>
     
     <!-- Footer -->
-    <div class="text-center text-2xs text-gray-400 mt-4">
-      <p>© 2025 GTPS6</p>
+    <div class="text-center text-2xs text-gray-400 mt-2 md:mt-4">
+      <p>© 2023 GTPS6</p>
     </div>
   </div>
 
