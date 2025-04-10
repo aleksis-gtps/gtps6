@@ -30,7 +30,7 @@
     }
 
     .neon-title {
-      font-size: 1rem;
+      font-size: clamp(0.9rem, 2.5vw, 1.2rem);
       background: linear-gradient(90deg, var(--primary-color), #ffffff, var(--primary-color));
       background-size: 300%;
       -webkit-background-clip: text;
@@ -57,11 +57,11 @@
       position: relative;
       overflow: hidden;
       width: 90%;
-      max-width: 500px;
+      max-width: min(90vw, 600px);
       margin: 0 auto;
       display: flex;
       flex-direction: row;
-      padding: 1rem;
+      padding: clamp(0.8rem, 2vw, 1.2rem);
     }
     
     .glass-box::before {
@@ -101,8 +101,8 @@
 
     .particle {
       position: absolute;
-      width: 6px;
-      height: 6px;
+      width: clamp(3px, 0.5vw, 6px);
+      height: clamp(3px, 0.5vw, 6px);
       background: var(--primary-color);
       border-radius: 50%;
       opacity: 0.6;
@@ -112,14 +112,14 @@
     
     .particle:nth-child(3n) {
       background: #ffffff;
-      width: 3px;
-      height: 3px;
+      width: clamp(2px, 0.3vw, 3px);
+      height: clamp(2px, 0.3vw, 3px);
     }
     
     .particle:nth-child(5n) {
       background: #00b8ff;
-      width: 4px;
-      height: 4px;
+      width: clamp(2px, 0.4vw, 4px);
+      height: clamp(2px, 0.4vw, 4px);
     }
 
     @keyframes floatParticle {
@@ -133,45 +133,6 @@
       }
     }
     
-    /* Input field focus effect */
-    .input-field:focus-within {
-      border-color: var(--primary-color);
-      box-shadow: 0 0 0 2px rgba(0, 224, 255, 0.2);
-    }
-    
-    /* Button hover effect */
-    .btn-primary {
-      position: relative;
-      overflow: hidden;
-      transition: all 0.3s ease;
-    }
-    
-    .btn-primary::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      transition: all 0.5s ease;
-    }
-    
-    .btn-primary:hover::after {
-      left: 100%;
-    }
-    
-    /* Error message animation */
-    .error-message {
-      animation: shake 0.5s ease-in-out;
-    }
-    
-    @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      20%, 60% { transform: translateX(-5px); }
-      40%, 80% { transform: translateX(5px); }
-    }
-    
     /* Layout sections */
     .logo-section {
       flex: 1;
@@ -179,47 +140,54 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding-right: 1rem;
+      padding-right: clamp(0.5rem, 2vw, 1rem);
+      min-width: 0;
     }
     
     .form-section {
       flex: 1;
+      min-width: 0;
     }
     
     .logo-img {
-      width: 120px;
+      width: clamp(80px, 20vw, 150px);
       height: auto;
+      max-width: 100%;
     }
     
-    /* iPhone 11 landscape specific adjustments */
-    @media only screen 
-      and (max-device-width: 896px) 
-      and (orientation: landscape) {
-        .glass-box {
-          max-width: 90%;
-          padding: 0.8rem;
-        }
-        
-        .logo-img {
-          width: 90px;
-        }
-        
-        .input-field {
-          padding: 0.3rem 0.6rem;
-        }
-        
-        input {
-          font-size: 0.8rem !important;
-        }
-        
-        .btn-primary {
-          padding: 0.3rem 0.4rem;
-          font-size: 0.8rem;
-        }
-        
-        .neon-title {
-          font-size: 0.9rem;
-        }
+    /* Responsive form elements */
+    .input-field {
+      padding: clamp(0.3rem, 1vw, 0.5rem) clamp(0.5rem, 1.5vw, 0.75rem);
+    }
+    
+    input {
+      font-size: clamp(0.75rem, 2vw, 0.9rem) !important;
+    }
+    
+    label {
+      font-size: clamp(0.7rem, 1.8vw, 0.85rem) !important;
+    }
+    
+    .btn-primary {
+      padding: clamp(0.3rem, 1vw, 0.5rem) clamp(0.4rem, 1.2vw, 0.6rem);
+      font-size: clamp(0.75rem, 2vw, 0.9rem);
+    }
+    
+    /* Responsive layout adjustments */
+    @media (max-width: 768px) {
+      .glass-box {
+        flex-direction: column;
+        max-width: min(90vw, 400px);
+      }
+      
+      .logo-section {
+        padding-right: 0;
+        padding-bottom: clamp(0.5rem, 2vw, 1rem);
+      }
+      
+      .logo-img {
+        width: clamp(90px, 25vw, 120px);
+      }
     }
   </style>
 </head>
@@ -409,6 +377,12 @@
       if (e.key === 'Enter') {
         document.getElementById('loginButton').click();
       }
+    });
+
+    // Handle orientation changes
+    window.addEventListener('resize', function() {
+      // This forces a re-render on orientation change
+      document.body.style.zoom = window.innerWidth / window.outerWidth;
     });
   </script>
 </body>
