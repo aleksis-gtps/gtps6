@@ -17,8 +17,7 @@
     
     body {
       font-family: 'Poppins', sans-serif;
-      overflow: hidden;
-      background: rgba(5, 10, 20, 0.7); /* More transparent background */
+      background: rgba(5, 10, 20, 0.7);
       min-height: 100vh;
     }
     
@@ -27,16 +26,16 @@
     }
 
     .neon-title {
-      font-size: 1.2rem; /* Reduced from 1.8rem */
+      font-size: 1.2rem;
       background: linear-gradient(90deg, var(--primary-color), #ffffff, var(--primary-color));
       background-size: 300%;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       animation: glowMove 4s linear infinite;
       text-shadow:
-        0 0 3px rgba(0, 246, 255, 0.7), /* Reduced glow */
-        0 0 6px rgba(0, 224, 255, 0.5),
-        0 0 12px rgba(0, 224, 255, 0.3);
+        0 0 5px rgba(0, 246, 255, 0.7),
+        0 0 10px rgba(0, 224, 255, 0.5),
+        0 0 20px rgba(0, 224, 255, 0.3);
     }
 
     @keyframes glowMove {
@@ -44,18 +43,17 @@
       100% { background-position: 300%; }
     }
 
-    /* More transparent glass effect */
+    /* Glass effect with full shine animation */
     .glass-box {
       border: 1px solid rgba(255, 255, 255, 0.1);
-      background: rgba(0, 0, 0, 0.3); /* More transparent */
-      box-shadow: 0 0 15px rgba(0, 255, 255, 0.1); /* Reduced shadow */
-      backdrop-filter: blur(8px); /* Reduced blur */
+      background: rgba(0, 0, 0, 0.3);
+      box-shadow: 0 0 25px rgba(0, 255, 255, 0.2);
+      backdrop-filter: blur(12px);
       transition: all 0.3s ease;
       position: relative;
       overflow: hidden;
       width: 90%;
-      max-width: 320px; /* Reduced from 600px */
-      transform: scale(0.9); /* Overall scaling */
+      max-width: 320px;
     }
     
     .glass-box::before {
@@ -69,7 +67,7 @@
         to bottom right,
         rgba(0, 224, 255, 0) 0%,
         rgba(0, 224, 255, 0) 30%,
-        rgba(0, 224, 255, 0.05) 45%, /* Reduced shine opacity */
+        rgba(0, 224, 255, 0.1) 45%,
         rgba(0, 224, 255, 0) 60%,
         rgba(0, 224, 255, 0) 100%
       );
@@ -78,52 +76,73 @@
       z-index: -1;
     }
     
-    /* Particle adjustments */
-    .particle {
-      width: 3px; /* Reduced from 6px */
-      height: 3px;
-      opacity: 0.4; /* More transparent */
+    @keyframes shine {
+      0% { transform: translateX(-100%) rotate(30deg); }
+      100% { transform: translateX(100%) rotate(30deg); }
     }
     
-    .particle:nth-child(3n) {
-      width: 2px;
-      height: 2px;
+    /* Input field focus effect */
+    .input-field:focus-within {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 2px rgba(0, 224, 255, 0.2);
     }
     
-    .particle:nth-child(5n) {
-      width: 2px;
-      height: 2px;
-    }
-
-    /* Smaller form elements */
-    .input-field {
-      padding: 0.4rem 0.75rem; /* Reduced padding */
-    }
-    
-    input {
-      font-size: 0.8rem !important; /* Smaller text */
-    }
-    
-    label {
-      font-size: 0.75rem !important; /* Smaller labels */
-    }
-    
+    /* Button hover effect */
     .btn-primary {
-      padding: 0.4rem 0.5rem; /* Smaller buttons */
-      font-size: 0.8rem;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
     }
     
-    /* Logo scaling */
-    .logo-img {
-      width: 120px !important; /* Reduced from 160px */
-      height: auto;
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: all 0.5s ease;
+    }
+    
+    .btn-primary:hover::after {
+      left: 100%;
+    }
+    
+    /* Error message animation */
+    .error-message {
+      animation: shake 0.5s ease-in-out;
+    }
+    
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-5px); }
+      40%, 80% { transform: translateX(5px); }
+    }
+    
+    /* Mobile responsive adjustments */
+    @media (max-width: 640px) {
+      .glass-box {
+        width: 95%;
+        padding: 1.5rem;
+      }
+      
+      .neon-title {
+        font-size: 1rem;
+      }
+      
+      .logo-img {
+        width: 100px !important;
+      }
+      
+      .btn-primary {
+        padding: 0.5rem;
+        font-size: 0.85rem;
+      }
     }
   </style>
 </head>
 <body class="min-h-screen flex items-center justify-center text-white px-4 relative">
-
-  <!-- Particle Layer -->
-  <div class="particles" id="particles-container"></div>
 
   <!-- Login Panel -->
   <div class="glass-box rounded-lg p-4 space-y-3 z-10">
@@ -131,7 +150,7 @@
     <div class="flex flex-col items-center space-y-2 mb-3">
       <img src="https://media.discordapp.net/attachments/1356768818289971397/1356769300924596426/logo.png?ex=67f8fa20&amp;is=67f7a8a0&amp;hm=d517aee77d475a1ae0af4c66a4cd31bb34ea83947c71160dcf139b3c862deb98&amp;format=webp&amp;quality=lossless" 
            alt="GTPS6 Logo" 
-           class="logo-img object-contain drop-shadow-md" />
+           class="logo-img object-contain drop-shadow-md hover:scale-105 transition-transform duration-300" />
       <h1 class="title-font neon-title text-center">PLAYER LOGIN</h1>
     </div>
 
@@ -151,7 +170,7 @@
       <!-- GrowID -->
       <div class="space-y-1">
         <label for="loginGrowId" class="block text-cyan-100">GrowID</label>
-        <div class="flex items-center input-field bg-white/5 border border-white/10 rounded focus-within:bg-white/10">
+        <div class="flex items-center input-field bg-white/5 border border-white/10 rounded focus-within:bg-white/10 transition-all duration-200">
           <i class="fas fa-user text-xs mr-1 text-cyan-300"></i>
           <input type="text" name="growId" id="loginGrowId" placeholder="Enter your GrowID"
                  class="bg-transparent w-full outline-none placeholder-cyan-200/50 focus:placeholder-transparent"/>
@@ -161,7 +180,7 @@
       <!-- Password -->
       <div class="space-y-1">
         <label for="loginPassword" class="block text-cyan-100">Password</label>
-        <div class="flex items-center input-field bg-white/5 border border-white/10 rounded focus-within:bg-white/10">
+        <div class="flex items-center input-field bg-white/5 border border-white/10 rounded focus-within:bg-white/10 transition-all duration-200">
           <i class="fas fa-lock text-xs mr-1 text-cyan-300"></i>
           <input type="password" name="password" id="loginPassword" placeholder="Enter your password"
                  class="bg-transparent w-full outline-none placeholder-cyan-200/50 focus:placeholder-transparent"/>
@@ -180,9 +199,9 @@
         <a href="/forgot-password" class="text-xs text-cyan-300 hover:text-white underline underline-offset-1">Forgot password?</a>
       </div>
 
-      <!-- Buttons -->
+      <!-- Buttons with Full Effects -->
       <div class="flex flex-col space-y-2 mt-3">
-        <button id="loginButton" class="btn-primary flex items-center justify-center gap-1 w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white rounded shadow hover:shadow-cyan-500/20">
+        <button id="loginButton" class="btn-primary flex items-center justify-center gap-1 w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white rounded shadow-lg hover:shadow-cyan-500/30 transition-all duration-300">
           <i class="fas fa-sign-in-alt text-xs"></i> <span class="title-font">LOGIN</span>
         </button>
 
@@ -192,12 +211,12 @@
           <div class="flex-1 border-t border-gray-600/50"></div>
         </div>
 
-        <a href="/register" class="btn-primary flex items-center justify-center gap-1 w-full bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white rounded shadow hover:shadow-purple-500/20">
+        <a href="/register" class="btn-primary flex items-center justify-center gap-1 w-full bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white rounded shadow-lg hover:shadow-purple-500/30 transition-all duration-300">
           <i class="fas fa-user-plus text-xs"></i> <span class="title-font">REGISTER</span>
         </a>
 
         <a href="https://discord.gg/YOUR_SERVER" target="_blank"
-           class="btn-primary flex items-center justify-center gap-1 w-full bg-[var(--discord-color)] hover:bg-[#4752c4] text-white rounded shadow hover:shadow-indigo-500/20">
+           class="btn-primary flex items-center justify-center gap-1 w-full bg-[var(--discord-color)] hover:bg-[#4752c4] text-white rounded shadow-lg hover:shadow-indigo-500/30 transition-all duration-300">
           <i class="fab fa-discord text-sm"></i> <span class="title-font">DISCORD</span>
         </a>
       </div>
@@ -219,18 +238,17 @@
         document.getElementById('loginGrowId').value = localStorage.getItem('growId') || '';
         document.getElementById('loginPassword').value = localStorage.getItem('password') || '';
       }
-
-      // Generate fewer particles
-      const particleContainer = document.getElementById('particles-container');
-      for (let i = 0; i < 30; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'particle';
-        particle.style.left = `${Math.random() * 100}%`;
-        particle.style.animationDuration = `${5 + Math.random() * 15}s`;
-        particle.style.animationDelay = `${Math.random() * 10}s`;
-        particle.style.opacity = Math.random() * 0.4;
-        particleContainer.appendChild(particle);
-      }
+      
+      // Add focus effects to inputs
+      const inputs = document.querySelectorAll('input[type="text"], input[type="password"]');
+      inputs.forEach(input => {
+        input.addEventListener('focus', function() {
+          this.parentElement.classList.add('ring-2', 'ring-cyan-500/30');
+        });
+        input.addEventListener('blur', function() {
+          this.parentElement.classList.remove('ring-2', 'ring-cyan-500/30');
+        });
+      });
     });
 
     // Toggle password visibility
