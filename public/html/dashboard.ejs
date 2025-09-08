@@ -11,6 +11,7 @@
     :root {
       --primary-color: #00e0ff;
       --discord-color: #5865F2;
+      --register-color: #a855f7;
     }
 
     body {
@@ -19,7 +20,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background: linear-gradient(135deg, #0d1a26, #1e3a8a);
+      background: transparent;
     }
 
     .title-font {
@@ -37,14 +38,14 @@
     }
 
     .glass-box {
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       border-radius: 1rem;
       padding: 2rem;
       width: 100%;
       max-width: 400px;
-      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
     }
 
     .input-field {
@@ -65,6 +66,10 @@
     .btn-primary:hover {
       transform: translateY(-2px);
       box-shadow: 0 4px 15px rgba(0, 224, 255, 0.3);
+    }
+
+    .btn-register:hover {
+      box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3);
     }
 
     .error-message {
@@ -124,9 +129,12 @@
         <a href="https://discord.com/invite/BkFVbnK8dS" class="text-cyan-300 hover:text-white underline">Forgot password?</a>
       </div>
 
-      <div class="grid grid-cols-2 gap-2 mt-4">
+      <div class="grid grid-cols-3 gap-2 mt-4">
         <button id="loginButton" class="btn-primary flex items-center justify-center gap-2 w-full bg-cyan-600 hover:bg-cyan-700 text-white rounded py-2">
           <i class="fas fa-sign-in-alt"></i> <span class="title-font">Login</span>
+        </button>
+        <button id="registerButton" class="btn-primary btn-register flex items-center justify-center gap-2 w-full bg-[var(--register-color)] hover:bg-purple-700 text-white rounded py-2">
+          <i class="fas fa-user-plus"></i> <span class="title-font">Register</span>
         </button>
         <a href="https://discord.com/invite/BkFVbnK8dS" target="_blank"
            class="btn-primary flex items-center justify-center gap-2 w-full bg-[var(--discord-color)] hover:bg-[#4752c4] text-white rounded py-2">
@@ -186,6 +194,32 @@
 
       setTimeout(() => {
         document.getElementById('loginForm').submit();
+      }, 800);
+    });
+
+    document.getElementById('registerButton').addEventListener('click', function (event) {
+      event.preventDefault();
+      const uName = document.getElementById('loginGrowId').value.trim();
+      const uPass = document.getElementById('loginPassword').value.trim();
+
+      if (!uName || !uPass) {
+        showError('Please enter both GrowID and password to register');
+        return;
+      }
+
+      if (uName.length < 3 || uPass.length < 4) {
+        showError('GrowID must be at least 3 characters, password at least 4');
+        return;
+      }
+
+      this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Registering...';
+      this.disabled = true;
+
+      // Placeholder for registration form submission
+      const form = document.getElementById('loginForm');
+      form.action = '/player/growid/register';
+      setTimeout(() => {
+        form.submit();
       }, 800);
     });
 
