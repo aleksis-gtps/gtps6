@@ -6,37 +6,34 @@
   <title>GTPS6 Login</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@500;600&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
       --primary-color: #00e0ff;
       --discord-color: #5865F2;
       --register-color: #a855f7;
     }
-
     body {
-      font-family: 'Poppins', sans-serif;
+      font-family: 'Century Gothic', 'Gothic Century', 'Arial', sans-serif;
+      font-weight: bold;
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
       background: transparent;
     }
-
     .title-font {
-      font-family: 'Exo 2', sans-serif;
+      font-family: 'Century Gothic', 'Gothic Century', 'Arial', sans-serif;
+      font-weight: bold;
     }
-
     .neon-title {
       font-size: 1.5rem;
-      font-weight: 600;
+      font-weight: bold;
       color: var(--primary-color);
-      text-shadow: 
+      text-shadow:
         0 0 8px rgba(0, 224, 255, 0.8),
         0 0 12px rgba(0, 224, 255, 0.6);
       letter-spacing: 0.05em;
     }
-
     .glass-box {
       background: rgba(255, 255, 255, 0.1);
       backdrop-filter: blur(12px);
@@ -47,35 +44,28 @@
       max-width: 400px;
       box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
     }
-
     .input-field {
       transition: all 0.3s ease;
     }
-
     .input-field:focus-within {
       border-color: var(--primary-color);
       box-shadow: 0 0 0 2px rgba(0, 224, 255, 0.2);
     }
-
     .btn-primary {
       position: relative;
       overflow: hidden;
       transition: all 0.3s ease;
     }
-
     .btn-primary:hover {
       transform: translateY(-2px);
       box-shadow: 0 4px 15px rgba(0, 224, 255, 0.3);
     }
-
     .btn-register:hover {
       box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3);
     }
-
     .error-message {
       animation: shake 0.5s ease-in-out;
     }
-
     @keyframes shake {
       0%, 100% { transform: translateX(0); }
       20%, 60% { transform: translateX(-5px); }
@@ -88,18 +78,15 @@
     <div class="text-center mb-6">
       <h1 class="title-font neon-title">Welcome to GTPS-6</h1>
     </div>
-
     <div id="errorDiv" class="hidden bg-red-900/50 text-red-100 text-sm p-3 rounded border border-red-700/50 mb-4">
       <div class="flex items-center">
         <i class="fas fa-exclamation-circle mr-2"></i>
         <p id="errorMessage"></p>
       </div>
     </div>
-
     <form method="post" action="/player/growid/login/validate" id="loginForm" class="space-y-4">
       <input type="hidden" name="type" value="log" />
       <input type="hidden" name="_token" value="<%= JSON.stringify(data) %>" />
-
       <div class="space-y-1">
         <label for="loginGrowId" class="block text-sm text-cyan-100">GrowID</label>
         <div class="flex items-center input-field bg-white/10 border border-white/20 rounded px-3 py-2">
@@ -108,7 +95,6 @@
                  class="bg-transparent w-full outline-none placeholder-cyan-200/50" />
         </div>
       </div>
-
       <div class="space-y-1">
         <label for="loginPassword" class="block text-sm text-cyan-100">Password</label>
         <div class="flex items-center input-field bg-white/10 border border-white/20 rounded px-3 py-2">
@@ -120,7 +106,6 @@
           </button>
         </div>
       </div>
-
       <div class="flex items-center justify-between text-sm">
         <div class="flex items-center">
           <input type="checkbox" id="rememberMe" class="h-4 w-4 rounded border-gray-300 text-cyan-500 focus:ring-cyan-500 bg-white/10">
@@ -128,7 +113,6 @@
         </div>
         <a href="https://discord.com/invite/BkFVbnK8dS" class="text-cyan-300 hover:text-white underline">Forgot password?</a>
       </div>
-
       <div class="grid grid-cols-3 gap-2 mt-4">
         <button id="loginButton" class="btn-primary flex items-center justify-center gap-2 w-full bg-cyan-600 hover:bg-cyan-700 text-white rounded py-2">
           <i class="fas fa-sign-in-alt"></i> <span class="title-font">Login</span>
@@ -143,18 +127,15 @@
       </div>
     </form>
   </div>
-
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const rememberMe = localStorage.getItem('rememberMe') === 'true';
       document.getElementById('rememberMe').checked = rememberMe;
-
       if (rememberMe) {
         document.getElementById('loginGrowId').value = localStorage.getItem('growId') || '';
         document.getElementById('loginPassword').value = localStorage.getItem('password') || '';
       }
     });
-
     document.getElementById('toggleLogPassword').addEventListener('click', function () {
       const passwordField = document.getElementById('loginPassword');
       const type = passwordField.getAttribute('type');
@@ -162,23 +143,19 @@
       this.innerHTML = `<i class="fas fa-${type === 'password' ? 'eye-slash' : 'eye'}"></i>`;
       passwordField.focus();
     });
-
     document.getElementById('loginButton').addEventListener('click', function (event) {
       event.preventDefault();
       const uName = document.getElementById('loginGrowId').value.trim();
       const uPass = document.getElementById('loginPassword').value.trim();
       const rememberMe = document.getElementById('rememberMe').checked;
-
       if (!uName || !uPass) {
         showError('Please enter both GrowID and password');
         return;
       }
-
       if (uName.length < 3 || uPass.length < 4) {
         showError('GrowID must be at least 3 characters, password at least 4');
         return;
       }
-
       if (rememberMe) {
         localStorage.setItem('growId', uName);
         localStorage.setItem('password', uPass);
@@ -188,56 +165,37 @@
         localStorage.removeItem('password');
         localStorage.setItem('rememberMe', 'false');
       }
-
       this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
       this.disabled = true;
-
       setTimeout(() => {
         document.getElementById('loginForm').submit();
       }, 800);
     });
-
     document.getElementById('registerButton').addEventListener('click', function (event) {
       event.preventDefault();
       const uName = document.getElementById('loginGrowId').value.trim();
       const uPass = document.getElementById('loginPassword').value.trim();
-
-      if (!uName || !uPass) {
-        showError('Please enter both GrowID and password to register');
-        return;
-      }
-
-      if (uName.length < 3 || uPass.length < 4) {
-        showError('GrowID must be at least 3 characters, password at least 4');
-        return;
-      }
-
       this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Registering...';
       this.disabled = true;
-
       // Placeholder for registration form submission
       const form = document.getElementById('loginForm');
       setTimeout(() => {
         form.submit();
       }, 800);
     });
-
     document.getElementById('loginPassword').addEventListener('keypress', function (e) {
       if (e.key === 'Enter') {
         document.getElementById('loginButton').click();
       }
     });
-
     function showError(message) {
       const errorDiv = document.getElementById('errorDiv');
       document.getElementById('errorMessage').textContent = message;
       errorDiv.classList.remove('hidden');
       errorDiv.classList.add('error-message');
-
       setTimeout(() => {
         errorDiv.classList.remove('error-message');
       }, 500);
-
       setTimeout(() => {
         errorDiv.classList.add('hidden');
       }, 3000);
