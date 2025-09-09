@@ -7,11 +7,6 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   <style>
-    :root {
-      --primary-color: #00e0ff;
-      --discord-color: #5865F2;
-      --register-color: #a855f7;
-    }
     body {
       font-family: 'Century Gothic', 'Gothic Century', 'Arial', sans-serif;
       font-weight: bold;
@@ -20,114 +15,130 @@
       justify-content: center;
       align-items: center;
       background: transparent;
+      padding: 1rem;
     }
-    .title-font {
-      font-family: 'Century Gothic', 'Gothic Century', 'Arial', sans-serif;
-      font-weight: bold;
-    }
-    .neon-title {
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: var(--primary-color);
-      text-shadow:
-        0 0 8px rgba(0, 224, 255, 0.8),
-        0 0 12px rgba(0, 224, 255, 0.6);
-      letter-spacing: 0.05em;
-    }
-    .glass-box {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+    .login-box {
+      background: linear-gradient(160deg, #0d1b2a, #1b263b, #415a77);
+      border: 2px solid #3b82f6;
       border-radius: 1rem;
-      padding: 2rem;
+      padding: 1.5rem;
       width: 100%;
-      max-width: 400px;
-      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+      max-width: 420px; /* slightly wider */
+      box-shadow: 0 0 20px rgba(0, 224, 255, 0.6);
+    }
+    @media (max-width: 480px) {
+      .login-box {
+        max-width: 95%;   /* fit better on small phones */
+        padding: 1.2rem;  /* reduce padding for less height */
+      }
+    }
+    .title-text {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #ffffff;
+    }
+    .subtitle {
+      font-size: 0.85rem;
+      color: #cbd5e1;
+    }
+    .highlight {
+      color: #60a5fa;
+      font-weight: bold;
+    }
+    .input-label {
+      color: #cbd5e1;
+      font-weight: bold;
+      font-size: 0.85rem;
     }
     .input-field {
-      transition: all 0.3s ease;
+      background: #1e3a5f;
+      border: 1px solid #334155;
+      border-radius: 0.5rem;
+      padding: 0.55rem 0.75rem;
+      color: white;
+      width: 100%;
+      outline: none;
+      transition: border 0.3s ease;
+      font-size: 0.9rem;
     }
-    .input-field:focus-within {
-      border-color: var(--primary-color);
-      box-shadow: 0 0 0 2px rgba(0, 224, 255, 0.2);
+    .input-field:focus {
+      border-color: #3b82f6;
     }
-    .btn-primary {
-      position: relative;
-      overflow: hidden;
-      transition: all 0.3s ease;
+    .btn {
+      padding: 0.65rem;
+      border-radius: 0.5rem;
+      font-weight: bold;
+      font-size: 0.95rem;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-    .btn-primary:hover {
+    .btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(0, 224, 255, 0.3);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
     }
-    .btn-register:hover {
-      box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3);
+    .btn-login {
+      background: #3b82f6;
+      color: white;
     }
-    .error-message {
-      animation: shake 0.5s ease-in-out;
+    .btn-register {
+      background: #FF7500;
+      color: white;
     }
-    @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      20%, 60% { transform: translateX(-5px); }
-      40%, 80% { transform: translateX(5px); }
+    .remember {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.8rem;
+      color: #cbd5e1;
+      margin-top: -0.4rem;
+    }
+    .remember input {
+      accent-color: #3b82f6;
     }
   </style>
 </head>
-<body class="text-white px-4">
-  <div class="glass-box">
-    <div class="text-center mb-6">
-      <h1 class="title-font neon-title">Welcome to GTPS-6</h1>
-    </div>
-    <div id="errorDiv" class="hidden bg-red-900/50 text-red-100 text-sm p-3 rounded border border-red-700/50 mb-4">
-      <div class="flex items-center">
-        <i class="fas fa-exclamation-circle mr-2"></i>
-        <p id="errorMessage"></p>
-      </div>
-    </div>
-    <form method="post" action="/player/growid/login/validate" id="loginForm" class="space-y-4">
+<body>
+  <div class="login-box">
+    <h1 class="title-text">Welcome to GTPS-6</h1>
+    <p class="subtitle mb-3">
+      Please enter your <span class="highlight">GrowID</span> and <span class="highlight">Password</span> 
+      to log in or register a new account.
+    </p>
+
+    <form method="post" action="/player/growid/login/validate" id="loginForm" class="space-y-3">
       <input type="hidden" name="type" value="log" />
       <input type="hidden" name="_token" value="<%= JSON.stringify(data) %>" />
-      <div class="space-y-1">
-        <label for="loginGrowId" class="block text-sm text-cyan-100">GrowID</label>
-        <div class="flex items-center input-field bg-white/10 border border-white/20 rounded px-3 py-2">
-          <i class="fas fa-user text-cyan-300 mr-2"></i>
-          <input type="text" name="growId" id="loginGrowId" placeholder="Enter your GrowID"
-                 class="bg-transparent w-full outline-none placeholder-cyan-200/50" />
-        </div>
+
+      <div>
+        <label for="loginGrowId" class="input-label">GrowID</label>
+        <input type="text" id="loginGrowId" name="growId" placeholder="Enter your GrowID" class="input-field" />
       </div>
-      <div class="space-y-1">
-        <label for="loginPassword" class="block text-sm text-cyan-100">Password</label>
-        <div class="flex items-center input-field bg-white/10 border border-white/20 rounded px-3 py-2">
-          <i class="fas fa-lock text-cyan-300 mr-2"></i>
-          <input type="password" name="password" id="loginPassword" placeholder="Enter your password"
-                 class="bg-transparent w-full outline-none placeholder-cyan-200/50" />
-          <button type="button" id="toggleLogPassword" class="ml-2 text-cyan-300 hover:text-white">
-            <i class="fas fa-eye"></i>
+
+      <div>
+        <label for="loginPassword" class="input-label">Password</label>
+        <div class="relative">
+          <input type="password" id="loginPassword" name="password" placeholder="Enter your password" class="input-field pr-12" />
+          <button type="button" id="toggleLogPassword" class="absolute right-3 top-1/2 -translate-y-1/2 text-white/70 text-xs">
+            OPEN
           </button>
         </div>
       </div>
-      <div class="flex items-center justify-between text-sm">
-        <div class="flex items-center">
-          <input type="checkbox" id="rememberMe" class="h-4 w-4 rounded border-gray-300 text-cyan-500 focus:ring-cyan-500 bg-white/10">
-          <label for="rememberMe" class="ml-2 text-cyan-100">Remember me</label>
-        </div>
-        <a href="https://discord.com/invite/BkFVbnK8dS" class="text-cyan-300 hover:text-white underline">Forgot password?</a>
+
+      <!-- Remember me -->
+      <div class="remember">
+        <input type="checkbox" id="rememberMe">
+        <label for="rememberMe">Remember me</label>
       </div>
-      <div class="grid grid-cols-3 gap-2 mt-4">
-        <button id="loginButton" class="btn-primary flex items-center justify-center gap-2 w-full bg-cyan-600 hover:bg-cyan-700 text-white rounded py-2">
-          <i class="fas fa-sign-in-alt"></i> <span class="title-font">Login</span>
-        </button>
-        <button id="registerButton" class="btn-primary btn-register flex items-center justify-center gap-2 w-full bg-[var(--register-color)] hover:bg-purple-700 text-white rounded py-2">
-          <i class="fas fa-user-plus"></i> <span class="title-font">Register</span>
-        </button>
-        <a href="https://discord.com/invite/BkFVbnK8dS" target="_blank"
-           class="btn-primary flex items-center justify-center gap-2 w-full bg-[var(--discord-color)] hover:bg-[#4752c4] text-white rounded py-2">
-          <i class="fab fa-discord"></i> <span class="title-font">Discord</span>
-        </a>
+
+      <!-- Buttons side by side -->
+      <div class="flex gap-3">
+        <button id="loginButton" class="btn btn-login w-1/2">Log in</button>
+        <button id="registerButton" class="btn btn-register w-1/2">Register</button>
       </div>
     </form>
   </div>
+
   <script>
+    // Remember Me setup
     document.addEventListener('DOMContentLoaded', function () {
       const rememberMe = localStorage.getItem('rememberMe') === 'true';
       document.getElementById('rememberMe').checked = rememberMe;
@@ -136,26 +147,21 @@
         document.getElementById('loginPassword').value = localStorage.getItem('password') || '';
       }
     });
+
+    // Toggle password visibility
     document.getElementById('toggleLogPassword').addEventListener('click', function () {
       const passwordField = document.getElementById('loginPassword');
       const type = passwordField.getAttribute('type');
       passwordField.setAttribute('type', type === 'password' ? 'text' : 'password');
-      this.innerHTML = `<i class="fas fa-${type === 'password' ? 'eye-slash' : 'eye'}"></i>`;
+      this.textContent = type === 'password' ? 'HIDE' : 'OPEN';
       passwordField.focus();
     });
+
+    // Save Remember Me on login
     document.getElementById('loginButton').addEventListener('click', function (event) {
-      event.preventDefault();
       const uName = document.getElementById('loginGrowId').value.trim();
       const uPass = document.getElementById('loginPassword').value.trim();
       const rememberMe = document.getElementById('rememberMe').checked;
-      if (!uName || !uPass) {
-        showError('Please enter both GrowID and password');
-        return;
-      }
-      if (uName.length < 3 || uPass.length < 4) {
-        showError('GrowID must be at least 3 characters, password at least 4');
-        return;
-      }
       if (rememberMe) {
         localStorage.setItem('growId', uName);
         localStorage.setItem('password', uPass);
@@ -165,41 +171,7 @@
         localStorage.removeItem('password');
         localStorage.setItem('rememberMe', 'false');
       }
-      this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
-      this.disabled = true;
-      setTimeout(() => {
-        document.getElementById('loginForm').submit();
-      }, 800);
     });
-    document.getElementById('registerButton').addEventListener('click', function (event) {
-      event.preventDefault();
-      const uName = document.getElementById('loginGrowId').value.trim();
-      const uPass = document.getElementById('loginPassword').value.trim();
-      this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Registering...';
-      this.disabled = true;
-      // Placeholder for registration form submission
-      const form = document.getElementById('loginForm');
-      setTimeout(() => {
-        form.submit();
-      }, 800);
-    });
-    document.getElementById('loginPassword').addEventListener('keypress', function (e) {
-      if (e.key === 'Enter') {
-        document.getElementById('loginButton').click();
-      }
-    });
-    function showError(message) {
-      const errorDiv = document.getElementById('errorDiv');
-      document.getElementById('errorMessage').textContent = message;
-      errorDiv.classList.remove('hidden');
-      errorDiv.classList.add('error-message');
-      setTimeout(() => {
-        errorDiv.classList.remove('error-message');
-      }, 500);
-      setTimeout(() => {
-        errorDiv.classList.add('hidden');
-      }, 3000);
-    }
   </script>
 </body>
 </html>
