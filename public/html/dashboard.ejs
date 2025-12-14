@@ -3,138 +3,546 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GTPS6 Login</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <title>GTPS-6 Login</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: 'Century Gothic', 'Gothic Century', 'Arial', sans-serif;
-      font-weight: bold;
+      font-family: 'Poppins', sans-serif;
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
       background: transparent;
-      padding: 1rem;
+      padding: 0.8rem;
+      position: relative;
+      overflow: hidden;
     }
-    .login-box {
-      background: linear-gradient(160deg, #0d1b2a, #1b263b, #415a77);
-      border: 2px solid #3b82f6;
-      border-radius: 1rem;
-      padding: 1.5rem;
+
+    .login-container {
+      position: relative;
+      z-index: 10;
       width: 100%;
-      max-width: 420px; /* slightly wider */
-      box-shadow: 0 0 20px rgba(0, 224, 255, 0.6);
+      max-width: 500px;
     }
-    @media (max-width: 480px) {
-      .login-box {
-        max-width: 95%;   /* fit better on small phones */
-        padding: 1.2rem;  /* reduce padding for less height */
-      }
+
+    /* Logo Container */
+    .logo-container {
+      text-align: center;
+      margin-bottom: 15px;
+      animation: logoFloat 3s ease-in-out infinite;
     }
+
+    .logo-container img {
+      width: 85px;
+      height: 85px;
+      border-radius: 50%;
+      border: 3px solid #FFD700;
+      box-shadow: 0 0 25px rgba(255, 215, 0, 0.7),
+                  0 0 50px rgba(255, 215, 0, 0.3);
+      background: rgba(0, 0, 0, 0.3);
+      padding: 4px;
+    }
+
+    @keyframes logoFloat {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .login-box {
+      background: rgba(20, 20, 40, 0.85);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border: 2px solid rgba(255, 215, 0, 0.4);
+      border-radius: 20px;
+      padding: 1.5rem 1.3rem;
+      box-shadow: 
+        0 6px 28px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        0 0 40px rgba(255, 215, 0, 0.15);
+      position: relative;
+    }
+
+    /* Gradient border glow */
+    .login-box::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: 20px;
+      padding: 2px;
+      background: linear-gradient(135deg, #FFD700, #FFA500, #FFD700);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
     .title-text {
-      font-size: 1.3rem;
-      font-weight: bold;
-      color: #ffffff;
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: #FFD700;
+      text-align: center;
+      text-shadow: 
+        0 0 15px rgba(255, 215, 0, 0.7),
+        2px 2px 0 rgba(0, 0, 0, 0.5);
+      margin-bottom: 0.4rem;
+      letter-spacing: 1.5px;
     }
+
     .subtitle {
-      font-size: 0.85rem;
-      color: #cbd5e1;
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.85);
+      text-align: center;
+      margin-bottom: 1.3rem;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+      font-weight: 600;
+      line-height: 1.3;
     }
+
     .highlight {
-      color: #60a5fa;
-      font-weight: bold;
+      color: #FFD700;
+      font-weight: 800;
     }
+
+    .input-group {
+      margin-bottom: 1rem;
+    }
+
     .input-label {
-      color: #cbd5e1;
-      font-weight: bold;
-      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #FFD700;
+      font-weight: 700;
+      font-size: 0.8rem;
+      margin-bottom: 0.45rem;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
     }
+
+    .input-wrapper {
+      position: relative;
+    }
+
     .input-field {
-      background: #1e3a5f;
-      border: 1px solid #334155;
-      border-radius: 0.5rem;
-      padding: 0.55rem 0.75rem;
-      color: white;
+      background: rgba(10, 10, 25, 0.7);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 2px solid rgba(255, 215, 0, 0.3);
+      border-radius: 10px;
+      padding: 0.7rem 0.85rem;
+      color: #FFF;
       width: 100%;
       outline: none;
-      transition: border 0.3s ease;
       font-size: 0.9rem;
+      font-weight: 600;
+      font-family: 'Poppins', sans-serif;
+      box-shadow: 
+        inset 0 2px 6px rgba(0, 0, 0, 0.4),
+        0 2px 0 rgba(255, 255, 255, 0.05);
+      transition: all 0.3s ease;
     }
+
     .input-field:focus {
-      border-color: #3b82f6;
+      border-color: #FFD700;
+      background: rgba(10, 10, 25, 0.85);
+      box-shadow: 
+        inset 0 2px 6px rgba(0, 0, 0, 0.4),
+        0 0 15px rgba(255, 215, 0, 0.4);
     }
-    .btn {
-      padding: 0.65rem;
-      border-radius: 0.5rem;
-      font-weight: bold;
-      font-size: 0.95rem;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    .input-field::placeholder {
+      color: rgba(255, 255, 255, 0.35);
+      font-weight: 500;
+      font-size: 0.85rem;
     }
-    .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+
+    .toggle-password {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: linear-gradient(135deg, #FFD700, #FFA500);
+      color: #000;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 7px;
+      font-size: 0.7rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-shadow: none;
+      box-shadow: 0 2px 6px rgba(255, 215, 0, 0.4);
     }
-    .btn-login {
-      background: #3b82f6;
-      color: white;
+
+    .toggle-password:hover {
+      background: linear-gradient(135deg, #FFA500, #FFD700);
+      box-shadow: 0 3px 10px rgba(255, 215, 0, 0.6);
+      transform: translateY(-50%) scale(1.05);
     }
-    .btn-register {
-      background: #FF7500;
-      color: white;
+
+    .toggle-password:active {
+      transform: translateY(-50%) scale(0.95);
     }
+
     .remember {
       display: flex;
       align-items: center;
-      gap: 0.4rem;
-      font-size: 0.8rem;
-      color: #cbd5e1;
-      margin-top: -0.4rem;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
     }
-    .remember input {
-      accent-color: #3b82f6;
+
+    .remember input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      accent-color: #FFD700;
+    }
+
+    .remember label {
+      color: rgba(255, 255, 255, 0.85);
+      font-weight: 600;
+      font-size: 0.8rem;
+      cursor: pointer;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    .button-group {
+      display: flex;
+      gap: 0.8rem;
+      margin-top: 1.2rem;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 0.75rem;
+      border: none;
+      border-radius: 12px;
+      font-weight: 800;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 
+        0 4px 12px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      font-family: 'Poppins', sans-serif;
+      letter-spacing: 0.3px;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .btn:hover::before {
+      left: 100%;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 
+        0 6px 16px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn-login {
+      background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+      color: white;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .btn-login:hover {
+      background: linear-gradient(135deg, #5BC05F 0%, #4CAF50 100%);
+    }
+
+    .btn-register {
+      background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+      color: white;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .btn-register:hover {
+      background: linear-gradient(135deg, #FFB74D 0%, #FF9800 100%);
+    }
+
+    /* Credit text */
+    .credit {
+      text-align: center;
+      margin-top: 1.2rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255, 215, 0, 0.2);
+      color: rgba(255, 255, 255, 0.55);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    .credit span {
+      color: #FFD700;
+      font-weight: 800;
+    }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 768px) {
+      .login-container {
+        max-width: 100%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 0.5rem;
+      }
+
+      .login-container {
+        max-width: 100%;
+      }
+
+      .logo-container {
+        margin-bottom: 12px;
+      }
+
+      .logo-container img {
+        width: 70px;
+        height: 70px;
+        border-width: 2px;
+      }
+
+      .login-box {
+        padding: 1.2rem 1rem;
+        border-width: 2px;
+      }
+
+      .title-text {
+        font-size: 1.4rem;
+        letter-spacing: 1px;
+      }
+
+      .subtitle {
+        font-size: 0.75rem;
+        margin-bottom: 1rem;
+      }
+
+      .input-group {
+        margin-bottom: 0.85rem;
+      }
+
+      .input-label {
+        font-size: 0.75rem;
+        margin-bottom: 0.4rem;
+      }
+
+      .input-field {
+        padding: 0.65rem 0.75rem;
+        font-size: 0.85rem;
+      }
+
+      .toggle-password {
+        padding: 4px 8px;
+        font-size: 0.65rem;
+        right: 8px;
+      }
+
+      .remember {
+        margin-bottom: 0.85rem;
+      }
+
+      .remember input[type="checkbox"] {
+        width: 16px;
+        height: 16px;
+      }
+
+      .remember label {
+        font-size: 0.75rem;
+      }
+
+      .button-group {
+        gap: 0.7rem;
+        margin-top: 1rem;
+      }
+
+      .btn {
+        padding: 0.7rem;
+        font-size: 0.85rem;
+      }
+
+      .credit {
+        font-size: 0.7rem;
+        margin-top: 1rem;
+        padding-top: 0.85rem;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .logo-container img {
+        width: 60px;
+        height: 60px;
+      }
+
+      .title-text {
+        font-size: 1.25rem;
+      }
+
+      .subtitle {
+        font-size: 0.7rem;
+      }
+
+      .login-box {
+        padding: 1rem 0.85rem;
+      }
+    }
+
+    /* Landscape mode optimization */
+    @media (max-height: 600px) and (orientation: landscape) {
+      body {
+        padding: 0.3rem;
+      }
+
+      .logo-container {
+        margin-bottom: 8px;
+      }
+
+      .logo-container img {
+        width: 55px;
+        height: 55px;
+      }
+
+      .login-box {
+        padding: 1rem 1.2rem;
+      }
+
+      .title-text {
+        font-size: 1.3rem;
+        margin-bottom: 0.3rem;
+      }
+
+      .subtitle {
+        font-size: 0.7rem;
+        margin-bottom: 0.8rem;
+      }
+
+      .input-group {
+        margin-bottom: 0.7rem;
+      }
+
+      .credit {
+        margin-top: 0.8rem;
+        padding-top: 0.7rem;
+      }
+    }
+
+    /* Loading animation for buttons */
+    @keyframes ripple {
+      0% {
+        box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.4);
+      }
+      100% {
+        box-shadow: 0 0 0 20px rgba(255, 215, 0, 0);
+      }
+    }
+
+    .btn:active {
+      animation: ripple 0.6s ease-out;
     }
   </style>
 </head>
 <body>
-  <div class="login-box">
-    <h1 class="title-text">Welcome to GTPS-6</h1>
-    <p class="subtitle mb-3">
-      Please enter your <span class="highlight">GrowID</span> and <span class="highlight">Password</span> 
-      to log in or register a new account.
-    </p>
+  <div class="login-container">
+    <!-- Logo -->
+    <div class="logo-container">
+      <img src="logo.png" alt="GTPS-6 Logo">
+    </div>
 
-    <form method="post" action="/player/growid/login/validate" id="loginForm" class="space-y-3">
-      <input type="hidden" name="type" value="log" />
-      <input type="hidden" name="_token" value="<%= JSON.stringify(data) %>" />
+    <!-- Login Box -->
+    <div class="login-box">
+      <h1 class="title-text">GTPS-6</h1>
+      <p class="subtitle">
+        Enter your <span class="highlight">GrowID</span> and <span class="highlight">Password</span>
+      </p>
 
-      <div>
-        <label for="loginGrowId" class="input-label">GrowID</label>
-        <input type="text" id="loginGrowId" name="growId" placeholder="Enter your GrowID" class="input-field" />
-      </div>
+      <form method="post" action="/player/growid/login/validate" id="loginForm">
+        <input type="hidden" name="type" id="formType" value="log" />
+        <input type="hidden" name="_token" value="<%= JSON.stringify(data) %>" />
 
-      <div>
-        <label for="loginPassword" class="input-label">Password</label>
-        <div class="relative">
-          <input type="password" id="loginPassword" name="password" placeholder="Enter your password" class="input-field pr-12" />
-          <button type="button" id="toggleLogPassword" class="absolute right-3 top-1/2 -translate-y-1/2 text-white/70 text-xs">
-            OPEN
+        <!-- GrowID Input -->
+        <div class="input-group">
+          <label for="loginGrowId" class="input-label">
+            <i class="fas fa-user"></i> GrowID
+          </label>
+          <input 
+            type="text" 
+            id="loginGrowId" 
+            name="growId" 
+            placeholder="Enter your GrowID" 
+            class="input-field"
+            autocomplete="username"
+          />
+        </div>
+
+        <!-- Password Input -->
+        <div class="input-group">
+          <label for="loginPassword" class="input-label">
+            <i class="fas fa-lock"></i> Password
+          </label>
+          <div class="input-wrapper">
+            <input 
+              type="password" 
+              id="loginPassword" 
+              name="password" 
+              placeholder="Enter your password" 
+              class="input-field"
+              style="padding-right: 70px;"
+              autocomplete="current-password"
+            />
+            <button type="button" id="toggleLogPassword" class="toggle-password">
+              SHOW
+            </button>
+          </div>
+        </div>
+
+        <!-- Remember Me -->
+        <div class="remember">
+          <input type="checkbox" id="rememberMe">
+          <label for="rememberMe">Remember me</label>
+        </div>
+
+        <!-- Buttons -->
+        <div class="button-group">
+          <button type="button" id="loginButton" class="btn btn-login">
+            <i class="fas fa-sign-in-alt"></i> Login
+          </button>
+          <button type="button" id="registerButton" class="btn btn-register">
+            <i class="fas fa-user-plus"></i> Register
           </button>
         </div>
-      </div>
 
-      <!-- Remember me -->
-      <div class="remember">
-        <input type="checkbox" id="rememberMe">
-        <label for="rememberMe">Remember me</label>
-      </div>
-
-      <!-- Buttons side by side -->
-      <div class="flex gap-3">
-        <button id="loginButton" class="btn btn-login w-1/2">Log in</button>
-        <button id="registerButton" class="btn btn-register w-1/2">Register</button>
-      </div>
-    </form>
+        <!-- Credit -->
+        <div class="credit">
+          Developed by <span>@aleksis</span>
+        </div>
+      </form>
+    </div>
   </div>
 
   <script>
@@ -153,14 +561,23 @@
       const passwordField = document.getElementById('loginPassword');
       const type = passwordField.getAttribute('type');
       passwordField.setAttribute('type', type === 'password' ? 'text' : 'password');
-      this.textContent = type === 'password' ? 'HIDE' : 'OPEN';
+      this.innerHTML = type === 'password' ? '<i class="fas fa-eye-slash"></i> HIDE' : '<i class="fas fa-eye"></i> SHOW';
       passwordField.focus();
     });
 
-    // Save Remember Me on login
+    // Login Button
     document.getElementById('loginButton').addEventListener('click', function (event) {
       const uName = document.getElementById('loginGrowId').value.trim();
       const uPass = document.getElementById('loginPassword').value.trim();
+      
+      if (!uName || !uPass) {
+        alert('Please enter both GrowID and Password!');
+        return;
+      }
+
+      // Set form type to LOGIN
+      document.getElementById('formType').value = 'log';
+
       const rememberMe = document.getElementById('rememberMe').checked;
       if (rememberMe) {
         localStorage.setItem('growId', uName);
@@ -170,6 +587,39 @@
         localStorage.removeItem('growId');
         localStorage.removeItem('password');
         localStorage.setItem('rememberMe', 'false');
+      }
+
+      // Submit the form
+      document.getElementById('loginForm').submit();
+    });
+
+    // Register Button
+    document.getElementById('registerButton').addEventListener('click', function () {
+      const uName = document.getElementById('loginGrowId').value.trim();
+      const uPass = document.getElementById('loginPassword').value.trim();
+      
+      if (!uName || !uPass) {
+        alert('Please enter both GrowID and Password to register!');
+        return;
+      }
+
+      // Set form type to REGISTER
+      document.getElementById('formType').value = 'reg';
+      
+      // Submit the form
+      document.getElementById('loginForm').submit();
+    });
+
+    // Enter key to login
+    document.getElementById('loginPassword').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        document.getElementById('loginButton').click();
+      }
+    });
+
+    document.getElementById('loginGrowId').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        document.getElementById('loginPassword').focus();
       }
     });
   </script>
