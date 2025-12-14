@@ -15,11 +15,16 @@
 
     :root{
       --gold: #FFD700;
-      --panel: rgba(16, 16, 34, 0.86);
-      --field: rgba(10, 10, 25, 0.68);
-      --stroke: rgba(255, 215, 0, 0.35);
+      --panel: rgba(16, 16, 34, 0.84);
+      --field: rgba(10, 10, 25, 0.62);
+      --stroke: rgba(255, 215, 0, 0.33);
       --text: rgba(255, 255, 255, 0.88);
       --shadow: rgba(0,0,0,0.55);
+
+      /* Controls sizing (tune these if needed) */
+      --control-h: 40px;         /* input/button height baseline */
+      --control-pad-x: 12px;
+      --toggle-w: 64px;
     }
 
     html, body { height: 100%; }
@@ -28,15 +33,14 @@
       font-family: 'Poppins', sans-serif;
       background: transparent;
 
-      /* Better mobile behavior than plain 100vh (browser bars) */
       min-height: 100vh;
       min-height: 100svh;
 
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
 
-      padding: 8px; /* smaller than before */
+      padding: 8px;
       -webkit-text-size-adjust: 100%;
     }
 
@@ -48,38 +52,42 @@
       background: var(--panel);
       border: 2px solid var(--stroke);
       border-radius: 16px;
-      padding: 14px 12px; /* smaller */
-      box-shadow:
-        0 10px 28px var(--shadow),
-        0 0 34px rgba(255, 215, 0, 0.12);
+      padding: 12px 12px;
+
+      box-shadow: 0 10px 28px var(--shadow), 0 0 34px rgba(255, 215, 0, 0.10);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
+
+      /* Never exceed screen height; scroll inside only if absolutely needed */
+      max-height: calc(100svh - 16px);
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
     .title-text{
       text-align: center;
       color: var(--gold);
       font-weight: 900;
-      letter-spacing: 1.2px;
-      font-size: 1.35rem; /* smaller */
-      margin-bottom: 4px;
-      text-shadow: 0 0 12px rgba(255,215,0,0.45), 2px 2px 0 rgba(0,0,0,0.45);
-      line-height: 1.1;
+      letter-spacing: 1px;
+      font-size: 1.15rem;
+      margin-bottom: 3px;
+      line-height: 1.05;
+      text-shadow: 0 0 10px rgba(255,215,0,0.4), 2px 2px 0 rgba(0,0,0,0.45);
     }
 
     .subtitle{
       text-align: center;
       color: var(--text);
-      font-size: 0.72rem; /* smaller */
+      font-size: 0.68rem;
       font-weight: 600;
-      line-height: 1.25;
-      margin-bottom: 10px;
+      line-height: 1.2;
+      margin-bottom: 8px;
       text-shadow: 0 2px 4px rgba(0,0,0,0.6);
     }
 
     .highlight{ color: var(--gold); font-weight: 800; }
 
-    .input-group{ margin-bottom: 9px; }
+    .input-group{ margin-bottom: 8px; }
 
     .input-label{
       display: flex;
@@ -87,37 +95,37 @@
       gap: 6px;
       color: var(--gold);
       font-weight: 800;
-      font-size: 0.72rem; /* smaller */
+      font-size: 0.68rem;
       text-transform: uppercase;
-      letter-spacing: 0.25px;
-      margin-bottom: 5px;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+      letter-spacing: 0.2px;
+      margin-bottom: 4px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.45);
     }
 
-    .input-wrapper{ position: relative; }
-
+    /* Default input */
     .input-field{
       width: 100%;
       background: var(--field);
-      border: 2px solid rgba(255,215,0,0.25);
+      border: 2px solid rgba(255,215,0,0.22);
       border-radius: 10px;
-      padding: 10px 10px; /* smaller but still tap-friendly */
-      font-size: 0.85rem;
+      padding: 0 var(--control-pad-x);
+      height: var(--control-h);
+
+      /* keep 16px to avoid iOS zoom */
+      font-size: 16px;
       font-weight: 600;
       color: #fff;
       outline: none;
+
       transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
       box-shadow: inset 0 2px 6px rgba(0,0,0,0.35);
       font-family: 'Poppins', sans-serif;
-
-      /* Stop iOS auto-zoom if you ever set font-size below 16px */
-      /* (we keep it near 14px+ visually, but safe) */
     }
 
     .input-field:focus{
       border-color: var(--gold);
-      background: rgba(10, 10, 25, 0.82);
-      box-shadow: inset 0 2px 6px rgba(0,0,0,0.35), 0 0 14px rgba(255,215,0,0.30);
+      background: rgba(10, 10, 25, 0.78);
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.35), 0 0 12px rgba(255,215,0,0.25);
     }
 
     .input-field::placeholder{
@@ -125,10 +133,23 @@
       font-weight: 500;
     }
 
+    /* Password wrapper: fixes SHOW/HIDE alignment */
+    .input-wrapper{
+      position: relative;
+      height: var(--control-h);
+    }
+
+    .input-wrapper .input-field{
+      position: absolute;
+      inset: 0;
+      height: 100%;
+      padding-right: calc(var(--toggle-w) + 10px);
+    }
+
     .toggle-password{
       position: absolute;
-      right: 8px;
       top: 50%;
+      right: 6px;
       transform: translateY(-50%);
       border: none;
       cursor: pointer;
@@ -136,11 +157,20 @@
       background: linear-gradient(135deg, #FFD700, #FFA500);
       color: #0b0b0b;
       font-weight: 900;
-      font-size: 0.62rem; /* smaller */
-      border-radius: 7px;
-      padding: 5px 8px;
-      box-shadow: 0 2px 6px rgba(255,215,0,0.35);
+      font-size: 0.70rem;
+
+      height: calc(var(--control-h) - 10px);
+      min-width: var(--toggle-w);
+      padding: 0 10px;
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(255,215,0,0.30);
       user-select: none;
+      white-space: nowrap;
     }
 
     .toggle-password:active{
@@ -151,48 +181,48 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      margin: 6px 0 8px;
+      margin: 2px 0 8px;
     }
 
     .remember input{
-      width: 16px;
-      height: 16px;
+      width: 15px;
+      height: 15px;
       accent-color: var(--gold);
       cursor: pointer;
     }
 
     .remember label{
       color: rgba(255,255,255,0.82);
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       font-weight: 600;
       cursor: pointer;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.5);
     }
 
     .button-group{
       display: flex;
       gap: 8px;
-      margin-top: 8px;
+      margin-top: 6px;
     }
 
     .btn{
       flex: 1;
       border: none;
       border-radius: 10px;
-      padding: 10px 10px;  /* smaller */
-      font-size: 0.82rem;  /* smaller */
+      padding: 9px 10px;
+
+      font-size: 0.78rem;
       font-weight: 900;
       text-transform: uppercase;
       cursor: pointer;
       letter-spacing: 0.2px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.18);
-      transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.16);
+      transition: transform .15s ease, filter .15s ease;
       font-family: 'Poppins', sans-serif;
       white-space: nowrap;
     }
 
     .btn:hover{ transform: translateY(-1px); filter: brightness(1.03); }
-    .btn:active{ transform: translateY(0); box-shadow: 0 2px 8px rgba(0,0,0,0.25); }
+    .btn:active{ transform: translateY(0); }
 
     .btn-login{
       background: linear-gradient(135deg, #39b54a 0%, #2e8f3b 100%);
@@ -206,32 +236,29 @@
 
     .credit{
       text-align: center;
-      margin-top: 10px;
-      padding-top: 8px;
-      border-top: 1px solid rgba(255,215,0,0.18);
+      margin-top: 8px;
+      padding-top: 6px;
+      border-top: 1px solid rgba(255,215,0,0.16);
       color: rgba(255,255,255,0.55);
-      font-size: 0.66rem; /* smaller */
+      font-size: 0.62rem;
       font-weight: 600;
     }
     .credit span{ color: var(--gold); font-weight: 800; }
 
-    /* Very narrow screens: stack buttons to avoid overflow */
     @media (max-width: 340px){
       .button-group{ flex-direction: column; }
-      .btn{ width: 100%; }
     }
 
-    /* Short height screens: compress spacing further */
-    @media (max-height: 650px){
-      body{ padding: 6px; }
-      .login-box{ padding: 12px 10px; }
-      .subtitle{ margin-bottom: 8px; }
-      .input-group{ margin-bottom: 8px; }
-      .credit{ margin-top: 8px; padding-top: 6px; }
-    }
-
-    /* Very short screens: hide credit to guarantee fit */
-    @media (max-height: 580px){
+    /* Short screens: move panel up and shrink controls a bit */
+    @media (max-height: 520px){
+      body{
+        align-items: flex-start;
+        padding-top: 6px;
+      }
+      :root{
+        --control-h: 36px;
+        --toggle-w: 60px;
+      }
       .credit{ display: none; }
     }
   </style>
@@ -274,7 +301,6 @@
               name="password"
               placeholder="Enter your password"
               class="input-field"
-              style="padding-right: 70px;"
               autocomplete="current-password"
             />
             <button type="button" id="toggleLogPassword" class="toggle-password">SHOW</button>
@@ -306,13 +332,11 @@
     // Remember Me load
     document.addEventListener('DOMContentLoaded', function () {
       const rememberMe = localStorage.getItem('rememberMe') === 'true';
-      const growId = localStorage.getItem('growId') || '';
-      const pass = localStorage.getItem('password') || '';
-
       document.getElementById('rememberMe').checked = rememberMe;
+
       if (rememberMe) {
-        document.getElementById('loginGrowId').value = growId;
-        document.getElementById('loginPassword').value = pass;
+        document.getElementById('loginGrowId').value = localStorage.getItem('growId') || '';
+        document.getElementById('loginPassword').value = localStorage.getItem('password') || '';
       }
     });
 
@@ -341,7 +365,7 @@
       }
     }
 
-    function validateBasic() {
+    function validateLogin() {
       const uName = document.getElementById('loginGrowId').value.trim();
       const uPass = document.getElementById('loginPassword').value.trim();
       if (!uName || !uPass) {
@@ -351,23 +375,32 @@
       return true;
     }
 
-    // Login
+    // LOGIN (requires GrowID + Password)
     document.getElementById('loginButton').addEventListener('click', function () {
-      if (!validateBasic()) return;
+      if (!validateLogin()) return;
+
       document.getElementById('formType').value = 'log';
       saveRememberMe();
       document.getElementById('loginForm').submit();
     });
 
-    // Register
+    // REGISTER (no GrowID/password required)
     document.getElementById('registerButton').addEventListener('click', function () {
-      if (!validateBasic()) return;
+      // Important: do NOT validate inputs
       document.getElementById('formType').value = 'reg';
+
+      // If you want "remember me" to still save typed values, keep this.
+      // If you DON'T want it to save anything on register, delete the next line.
       saveRememberMe();
+
+      // Option A: submit same endpoint with type=reg (most common in GTPS panels)
       document.getElementById('loginForm').submit();
+
+      // Option B (if your backend has a separate route):
+      // window.location.href = "/player/growid/register";
     });
 
-    // Enter key: login (works even if user taps Enter on GrowID or Password)
+    // Enter key = login (only)
     ['loginGrowId', 'loginPassword'].forEach((id) => {
       document.getElementById(id).addEventListener('keydown', function (e) {
         if (e.key === 'Enter') {
