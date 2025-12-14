@@ -66,7 +66,7 @@ app.all('/player/growid/checktoken', (req, res) => {
 });
 
 app.get('/', function (req, res) {
-    res.send('Hello World!');
+    res.send('@GTPS-6 Community!');
 });
 
 app.listen(5000, function () {
