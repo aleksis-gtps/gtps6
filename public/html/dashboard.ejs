@@ -4,317 +4,239 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>GTPS-6 Login</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root{
+      --gold: #FFD700;
+      --panel: rgba(16, 16, 34, 0.86);
+      --field: rgba(10, 10, 25, 0.68);
+      --stroke: rgba(255, 215, 0, 0.35);
+      --text: rgba(255, 255, 255, 0.88);
+      --shadow: rgba(0,0,0,0.55);
     }
 
-    body {
+    html, body { height: 100%; }
+
+    body{
       font-family: 'Poppins', sans-serif;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       background: transparent;
-      padding: 0.5rem;
-    }
 
-    .login-container {
-      width: 100%;
-      max-width: 520px;
-    }
+      /* Better mobile behavior than plain 100vh (browser bars) */
+      min-height: 100vh;
+      min-height: 100svh;
 
-    .login-box {
-      background: rgba(20, 20, 40, 0.9);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-      border: 2px solid rgba(255, 215, 0, 0.4);
-      border-radius: 18px;
-      padding: 1.2rem 1rem;
-      box-shadow: 
-        0 6px 28px rgba(0, 0, 0, 0.5),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1),
-        0 0 40px rgba(255, 215, 0, 0.15);
-    }
-
-    .title-text {
-      font-size: 1.5rem;
-      font-weight: 900;
-      color: #FFD700;
-      text-align: center;
-      text-shadow: 
-        0 0 15px rgba(255, 215, 0, 0.7),
-        2px 2px 0 rgba(0, 0, 0, 0.5);
-      margin-bottom: 0.3rem;
-      letter-spacing: 1.5px;
-    }
-
-    .subtitle {
-      font-size: 0.75rem;
-      color: rgba(255, 255, 255, 0.85);
-      text-align: center;
-      margin-bottom: 1rem;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
-      font-weight: 600;
-      line-height: 1.3;
-    }
-
-    .highlight {
-      color: #FFD700;
-      font-weight: 800;
-    }
-
-    .input-group {
-      margin-bottom: 0.8rem;
-    }
-
-    .input-label {
       display: flex;
       align-items: center;
-      gap: 5px;
-      color: #FFD700;
-      font-weight: 700;
-      font-size: 0.75rem;
-      margin-bottom: 0.4rem;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+      justify-content: center;
+
+      padding: 8px; /* smaller than before */
+      -webkit-text-size-adjust: 100%;
+    }
+
+    .login-container{
+      width: min(520px, 100%);
+    }
+
+    .login-box{
+      background: var(--panel);
+      border: 2px solid var(--stroke);
+      border-radius: 16px;
+      padding: 14px 12px; /* smaller */
+      box-shadow:
+        0 10px 28px var(--shadow),
+        0 0 34px rgba(255, 215, 0, 0.12);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .title-text{
+      text-align: center;
+      color: var(--gold);
+      font-weight: 900;
+      letter-spacing: 1.2px;
+      font-size: 1.35rem; /* smaller */
+      margin-bottom: 4px;
+      text-shadow: 0 0 12px rgba(255,215,0,0.45), 2px 2px 0 rgba(0,0,0,0.45);
+      line-height: 1.1;
+    }
+
+    .subtitle{
+      text-align: center;
+      color: var(--text);
+      font-size: 0.72rem; /* smaller */
+      font-weight: 600;
+      line-height: 1.25;
+      margin-bottom: 10px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+    }
+
+    .highlight{ color: var(--gold); font-weight: 800; }
+
+    .input-group{ margin-bottom: 9px; }
+
+    .input-label{
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--gold);
+      font-weight: 800;
+      font-size: 0.72rem; /* smaller */
       text-transform: uppercase;
-      letter-spacing: 0.3px;
+      letter-spacing: 0.25px;
+      margin-bottom: 5px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
     }
 
-    .input-wrapper {
-      position: relative;
-    }
+    .input-wrapper{ position: relative; }
 
-    .input-field {
-      background: rgba(10, 10, 25, 0.7);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 2px solid rgba(255, 215, 0, 0.3);
-      border-radius: 10px;
-      padding: 0.65rem 0.75rem;
-      color: #FFF;
+    .input-field{
       width: 100%;
-      outline: none;
+      background: var(--field);
+      border: 2px solid rgba(255,215,0,0.25);
+      border-radius: 10px;
+      padding: 10px 10px; /* smaller but still tap-friendly */
       font-size: 0.85rem;
       font-weight: 600;
+      color: #fff;
+      outline: none;
+      transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.35);
       font-family: 'Poppins', sans-serif;
-      box-shadow: 
-        inset 0 2px 6px rgba(0, 0, 0, 0.4),
-        0 2px 0 rgba(255, 255, 255, 0.05);
-      transition: all 0.3s ease;
+
+      /* Stop iOS auto-zoom if you ever set font-size below 16px */
+      /* (we keep it near 14px+ visually, but safe) */
     }
 
-    .input-field:focus {
-      border-color: #FFD700;
-      background: rgba(10, 10, 25, 0.85);
-      box-shadow: 
-        inset 0 2px 6px rgba(0, 0, 0, 0.4),
-        0 0 15px rgba(255, 215, 0, 0.4);
+    .input-field:focus{
+      border-color: var(--gold);
+      background: rgba(10, 10, 25, 0.82);
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.35), 0 0 14px rgba(255,215,0,0.30);
     }
 
-    .input-field::placeholder {
-      color: rgba(255, 255, 255, 0.35);
+    .input-field::placeholder{
+      color: rgba(255,255,255,0.35);
       font-weight: 500;
-      font-size: 0.8rem;
     }
 
-    .toggle-password {
+    .toggle-password{
       position: absolute;
       right: 8px;
       top: 50%;
       transform: translateY(-50%);
-      background: linear-gradient(135deg, #FFD700, #FFA500);
-      color: #000;
       border: none;
-      padding: 4px 8px;
-      border-radius: 6px;
-      font-size: 0.65rem;
-      font-weight: 800;
       cursor: pointer;
-      transition: all 0.2s ease;
-      text-shadow: none;
-      box-shadow: 0 2px 6px rgba(255, 215, 0, 0.4);
+
+      background: linear-gradient(135deg, #FFD700, #FFA500);
+      color: #0b0b0b;
+      font-weight: 900;
+      font-size: 0.62rem; /* smaller */
+      border-radius: 7px;
+      padding: 5px 8px;
+      box-shadow: 0 2px 6px rgba(255,215,0,0.35);
+      user-select: none;
     }
 
-    .toggle-password:hover {
-      background: linear-gradient(135deg, #FFA500, #FFD700);
-      box-shadow: 0 3px 10px rgba(255, 215, 0, 0.6);
-      transform: translateY(-50%) scale(1.05);
+    .toggle-password:active{
+      transform: translateY(-50%) scale(0.98);
     }
 
-    .remember {
+    .remember{
       display: flex;
       align-items: center;
-      gap: 0.4rem;
-      margin-bottom: 0.8rem;
+      gap: 8px;
+      margin: 6px 0 8px;
     }
 
-    .remember input[type="checkbox"] {
+    .remember input{
       width: 16px;
       height: 16px;
+      accent-color: var(--gold);
       cursor: pointer;
-      accent-color: #FFD700;
     }
 
-    .remember label {
-      color: rgba(255, 255, 255, 0.85);
+    .remember label{
+      color: rgba(255,255,255,0.82);
+      font-size: 0.72rem;
       font-weight: 600;
-      font-size: 0.75rem;
       cursor: pointer;
-      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+      text-shadow: 0 1px 2px rgba(0,0,0,0.5);
     }
 
-    .button-group {
+    .button-group{
       display: flex;
-      gap: 0.7rem;
-      margin-top: 1rem;
+      gap: 8px;
+      margin-top: 8px;
     }
 
-    .btn {
+    .btn{
       flex: 1;
-      padding: 0.65rem;
       border: none;
       border-radius: 10px;
-      font-weight: 800;
-      font-size: 0.85rem;
+      padding: 10px 10px;  /* smaller */
+      font-size: 0.82rem;  /* smaller */
+      font-weight: 900;
       text-transform: uppercase;
       cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 
-        0 4px 12px rgba(0, 0, 0, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      letter-spacing: 0.2px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.18);
+      transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
       font-family: 'Poppins', sans-serif;
-      letter-spacing: 0.3px;
+      white-space: nowrap;
     }
 
-    .btn:active {
-      transform: translateY(0);
+    .btn:hover{ transform: translateY(-1px); filter: brightness(1.03); }
+    .btn:active{ transform: translateY(0); box-shadow: 0 2px 8px rgba(0,0,0,0.25); }
+
+    .btn-login{
+      background: linear-gradient(135deg, #39b54a 0%, #2e8f3b 100%);
+      color: #fff;
     }
 
-    .btn-login {
-      background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
-      color: white;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    .btn-register{
+      background: linear-gradient(135deg, #ff9a14 0%, #e65d00 100%);
+      color: #fff;
     }
 
-    .btn-register {
-      background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
-      color: white;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    }
-
-    .credit {
+    .credit{
       text-align: center;
-      margin-top: 0.9rem;
-      padding-top: 0.8rem;
-      border-top: 1px solid rgba(255, 215, 0, 0.2);
-      color: rgba(255, 255, 255, 0.55);
-      font-size: 0.7rem;
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(255,215,0,0.18);
+      color: rgba(255,255,255,0.55);
+      font-size: 0.66rem; /* smaller */
       font-weight: 600;
-      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    }
+    .credit span{ color: var(--gold); font-weight: 800; }
+
+    /* Very narrow screens: stack buttons to avoid overflow */
+    @media (max-width: 340px){
+      .button-group{ flex-direction: column; }
+      .btn{ width: 100%; }
     }
 
-    .credit span {
-      color: #FFD700;
-      font-weight: 800;
+    /* Short height screens: compress spacing further */
+    @media (max-height: 650px){
+      body{ padding: 6px; }
+      .login-box{ padding: 12px 10px; }
+      .subtitle{ margin-bottom: 8px; }
+      .input-group{ margin-bottom: 8px; }
+      .credit{ margin-top: 8px; padding-top: 6px; }
     }
 
-    /* Extra small phones */
-    @media (max-width: 380px) {
-      body {
-        padding: 0.3rem;
-      }
-
-      .login-box {
-        padding: 1rem 0.85rem;
-      }
-
-      .title-text {
-        font-size: 1.3rem;
-      }
-
-      .subtitle {
-        font-size: 0.7rem;
-      }
-
-      .input-field {
-        padding: 0.6rem 0.7rem;
-        font-size: 0.8rem;
-      }
-
-      .btn {
-        padding: 0.6rem;
-        font-size: 0.8rem;
-      }
-    }
-
-    /* Landscape mode - critical for fitting */
-    @media (max-height: 700px) {
-      body {
-        padding: 0.3rem;
-      }
-
-      .login-box {
-        padding: 0.9rem 1rem;
-      }
-
-      .title-text {
-        font-size: 1.3rem;
-        margin-bottom: 0.2rem;
-      }
-
-      .subtitle {
-        font-size: 0.7rem;
-        margin-bottom: 0.8rem;
-      }
-
-      .input-group {
-        margin-bottom: 0.7rem;
-      }
-
-      .input-label {
-        margin-bottom: 0.3rem;
-      }
-
-      .remember {
-        margin-bottom: 0.7rem;
-      }
-
-      .credit {
-        margin-top: 0.7rem;
-        padding-top: 0.6rem;
-        font-size: 0.65rem;
-      }
-    }
-
-    /* Very short screens */
-    @media (max-height: 600px) {
-      .login-box {
-        padding: 0.7rem 0.9rem;
-      }
-
-      .title-text {
-        font-size: 1.2rem;
-      }
-
-      .input-group {
-        margin-bottom: 0.6rem;
-      }
-
-      .button-group {
-        margin-top: 0.8rem;
-      }
-
-      .credit {
-        display: none;
-      }
+    /* Very short screens: hide credit to guarantee fit */
+    @media (max-height: 580px){
+      .credit{ display: none; }
     }
   </style>
 </head>
+
 <body>
   <div class="login-container">
     <div class="login-box">
@@ -323,53 +245,47 @@
         Enter your <span class="highlight">GrowID</span> and <span class="highlight">Password</span>
       </p>
 
-      <form method="post" action="/player/growid/login/validate" id="loginForm">
+      <form method="post" action="/player/growid/login/validate" id="loginForm" autocomplete="on">
         <input type="hidden" name="type" id="formType" value="log" />
         <input type="hidden" name="_token" value="<%= JSON.stringify(data) %>" />
 
-        <!-- GrowID Input -->
         <div class="input-group">
           <label for="loginGrowId" class="input-label">
             <i class="fas fa-user"></i> GrowID
           </label>
-          <input 
-            type="text" 
-            id="loginGrowId" 
-            name="growId" 
-            placeholder="Enter your GrowID" 
+          <input
+            type="text"
+            id="loginGrowId"
+            name="growId"
+            placeholder="Enter your GrowID"
             class="input-field"
             autocomplete="username"
           />
         </div>
 
-        <!-- Password Input -->
         <div class="input-group">
           <label for="loginPassword" class="input-label">
             <i class="fas fa-lock"></i> Password
           </label>
           <div class="input-wrapper">
-            <input 
-              type="password" 
-              id="loginPassword" 
-              name="password" 
-              placeholder="Enter your password" 
+            <input
+              type="password"
+              id="loginPassword"
+              name="password"
+              placeholder="Enter your password"
               class="input-field"
-              style="padding-right: 65px;"
+              style="padding-right: 70px;"
               autocomplete="current-password"
             />
-            <button type="button" id="toggleLogPassword" class="toggle-password">
-              SHOW
-            </button>
+            <button type="button" id="toggleLogPassword" class="toggle-password">SHOW</button>
           </div>
         </div>
 
-        <!-- Remember Me -->
         <div class="remember">
           <input type="checkbox" id="rememberMe">
           <label for="rememberMe">Remember me</label>
         </div>
 
-        <!-- Buttons -->
         <div class="button-group">
           <button type="button" id="loginButton" class="btn btn-login">
             <i class="fas fa-sign-in-alt"></i> Login
@@ -379,7 +295,6 @@
           </button>
         </div>
 
-        <!-- Credit -->
         <div class="credit">
           Developed by <span>@aleksis</span>
         </div>
@@ -388,39 +303,34 @@
   </div>
 
   <script>
-    // Remember Me setup
+    // Remember Me load
     document.addEventListener('DOMContentLoaded', function () {
       const rememberMe = localStorage.getItem('rememberMe') === 'true';
+      const growId = localStorage.getItem('growId') || '';
+      const pass = localStorage.getItem('password') || '';
+
       document.getElementById('rememberMe').checked = rememberMe;
       if (rememberMe) {
-        document.getElementById('loginGrowId').value = localStorage.getItem('growId') || '';
-        document.getElementById('loginPassword').value = localStorage.getItem('password') || '';
+        document.getElementById('loginGrowId').value = growId;
+        document.getElementById('loginPassword').value = pass;
       }
     });
 
-    // Toggle password visibility
+    // Toggle password
     document.getElementById('toggleLogPassword').addEventListener('click', function () {
       const passwordField = document.getElementById('loginPassword');
-      const type = passwordField.getAttribute('type');
-      passwordField.setAttribute('type', type === 'password' ? 'text' : 'password');
-      this.textContent = type === 'password' ? 'HIDE' : 'SHOW';
+      const isHidden = passwordField.type === 'password';
+      passwordField.type = isHidden ? 'text' : 'password';
+      this.textContent = isHidden ? 'HIDE' : 'SHOW';
       passwordField.focus();
     });
 
-    // Login Button
-    document.getElementById('loginButton').addEventListener('click', function (event) {
+    function saveRememberMe() {
       const uName = document.getElementById('loginGrowId').value.trim();
       const uPass = document.getElementById('loginPassword').value.trim();
-      
-      if (!uName || !uPass) {
-        alert('Please enter both GrowID and Password!');
-        return;
-      }
+      const remember = document.getElementById('rememberMe').checked;
 
-      document.getElementById('formType').value = 'log';
-
-      const rememberMe = document.getElementById('rememberMe').checked;
-      if (rememberMe) {
+      if (remember) {
         localStorage.setItem('growId', uName);
         localStorage.setItem('password', uPass);
         localStorage.setItem('rememberMe', 'true');
@@ -429,35 +339,42 @@
         localStorage.removeItem('password');
         localStorage.setItem('rememberMe', 'false');
       }
+    }
 
-      document.getElementById('loginForm').submit();
-    });
-
-    // Register Button
-    document.getElementById('registerButton').addEventListener('click', function () {
+    function validateBasic() {
       const uName = document.getElementById('loginGrowId').value.trim();
       const uPass = document.getElementById('loginPassword').value.trim();
-      
       if (!uName || !uPass) {
-        alert('Please enter both GrowID and Password to register!');
-        return;
+        alert('Please enter both GrowID and Password!');
+        return false;
       }
+      return true;
+    }
 
-      document.getElementById('formType').value = 'reg';
+    // Login
+    document.getElementById('loginButton').addEventListener('click', function () {
+      if (!validateBasic()) return;
+      document.getElementById('formType').value = 'log';
+      saveRememberMe();
       document.getElementById('loginForm').submit();
     });
 
-    // Enter key to login
-    document.getElementById('loginPassword').addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') {
-        document.getElementById('loginButton').click();
-      }
+    // Register
+    document.getElementById('registerButton').addEventListener('click', function () {
+      if (!validateBasic()) return;
+      document.getElementById('formType').value = 'reg';
+      saveRememberMe();
+      document.getElementById('loginForm').submit();
     });
 
-    document.getElementById('loginGrowId').addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') {
-        document.getElementById('loginPassword').focus();
-      }
+    // Enter key: login (works even if user taps Enter on GrowID or Password)
+    ['loginGrowId', 'loginPassword'].forEach((id) => {
+      document.getElementById(id).addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          document.getElementById('loginButton').click();
+        }
+      });
     });
   </script>
 </body>
